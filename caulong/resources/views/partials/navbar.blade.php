@@ -41,6 +41,7 @@
                         <a href="#" class="nav-item nav-link">Sản phẩm</a>
                         <a href="#" class="nav-item nav-link">Liên hệ</a>
                         <a href="#" class="nav-item nav-link">Hỗ trợ</a>
+                        <a href="#" class="nav-item nav-link">Yêu Thích</a>
                     </div>
 
                     <!-- Cart -->
