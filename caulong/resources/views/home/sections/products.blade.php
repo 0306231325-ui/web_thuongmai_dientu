@@ -16,7 +16,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4 h-100 d-flex flex-column">
 
-                    <!-- ẢNH -->
+                    
                     <div class="product-img position-relative overflow-hidden d-flex align-items-center justify-content-center"
                          style="height: 260px; background: #fff;">
                         <img
@@ -38,10 +38,10 @@
                         </div>
                     </div>
 
-                    <!-- THÔNG TIN -->
+                   
                     <div class="product-info text-center px-2 py-3 flex-grow-1 d-flex flex-column justify-content-between">
 
-                        <!-- PHẦN TRÊN: TÊN -->
+                        
                         <div class="product-info-top">
                             <a href="#" class="product-title-link">
                                 <div class="product-title-wrapper">
@@ -55,7 +55,7 @@
                             </a>
                         </div>
 
-                        <!-- PHẦN DƯỚI: GIÁ + ĐÁNH GIÁ -->
+                        
                         <div class="product-info-bottom mt-2">
 
                             <h5 class="mb-1">
@@ -63,12 +63,12 @@
                             </h5>
 
                             <div class="d-flex align-items-center justify-content-center">
-                                {{-- Sao vàng --}}
+                                
                                 @for($i = 1; $i <= floor($diemTrungBinh); $i++)
                                     <small class="fa fa-star text-primary mr-1"></small>
                                 @endfor
 
-                                {{-- Sao xám --}}
+                                
                                 @for($i = floor($diemTrungBinh) + 1; $i <= 5; $i++)
                                     <small class="fa fa-star text-muted mr-1"></small>
                                 @endfor
