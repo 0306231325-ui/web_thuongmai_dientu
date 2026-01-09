@@ -47,7 +47,7 @@
 
                         
                         <div class="product-info-top">
-                            <a href="#" class="product-title-link">
+                            <a href="{{ route('sanpham.chitiet', $sp->Slug) }}" class="product-title-link">
                                 <span class="product-title-text">
                                     {{ $sp->TenSanPham }}
                                     @if(!empty($bienThe?->TenBienThe))

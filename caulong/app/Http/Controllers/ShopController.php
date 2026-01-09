@@ -37,7 +37,7 @@ class ShopController extends Controller
         });
     }
 
-    $sanPhams = $query->paginate(9);
+    $sanPhams = $query->paginate(6);
 
     return view('shop.index', compact(
         'sanPhams',

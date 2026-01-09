@@ -120,9 +120,10 @@
                     </div>
                 @endforeach
 
-                <div class="col-12">
-                    {{ $sanPhams->withQueryString()->links() }}
-                </div>
+                <div class="col-12 d-flex justify-content-center mt-4">
+    {{ $sanPhams->withQueryString()->onEachSide(1)->links('pagination::bootstrap-4') }}
+</div>
+
 
             </div>
         </div>
