@@ -10,18 +10,15 @@ class HomeController extends Controller
 {
     public function index()
     {
-        /**
-         * 🔹 SLIDESHOW (BANNER)
-         */
+        
         $slides = Slideshow::where('HienThi', 1)
             ->orderBy('ThuTu')
             ->get();
 
-        /**
-         * 🔹 SẢN PHẨM MỚI NHẤT
-         */
+        
         $products = SanPham::with([
                 'danhGias',
+                'hinhAnhChinh', 
                 'bienThes' => function ($q) {
                     $q->orderBy('GiaBan', 'asc');
                 }
@@ -31,10 +28,7 @@ class HomeController extends Controller
             ->limit(8)
             ->get();
 
-        /**
-         * 🔹 DANH MỤC (LOGIC CŨ)
-         * - Đếm số sản phẩm đang bán
-         */
+        
         $categories = DanhMuc::withCount([
             'sanPhams' => function ($q) {
                 $q->where('TrangThai', 1);

@@ -1,0 +1,6 @@
+.product-img-fixed {
+    width: 100%;
+    height: 280px;      /* tăng chút cho vợt */
+    object-fit: contain;
+    background: #fff;  /* nền trắng cho đẹp */
+}

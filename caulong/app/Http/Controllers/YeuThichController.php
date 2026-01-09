@@ -9,7 +9,7 @@ class YeuThichController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id(); // hoặc session nếu chưa làm auth
+        $userId = Auth::id(); 
 
         $wishlists = YeuThich::with('sanPham')
             ->where('MaNguoiDung', $userId)

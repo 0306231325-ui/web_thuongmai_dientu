@@ -1,28 +1,32 @@
 <div class="container-fluid pt-5 pb-3">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
-        <span class="bg-secondary pr-3">Sản Phẩm </span>
+        <span class="bg-secondary pr-3">Sản Phẩm</span>
     </h2>
 
     <div class="row px-xl-5">
         @foreach($products as $sp)
             @php
                 $bienThe = $sp->bienThes->first();
+
                 $tongDanhGia = $sp->danhGias->count();
                 $diemTrungBinh = $tongDanhGia > 0
                     ? round($sp->danhGias->avg('SoSao'), 1)
                     : 0;
+
+                
+                $anh = $sp->hinhAnhChinh
+                    ? asset('img/hinhanhsanpham/' . $sp->hinhAnhChinh->DuongDan)
+                    : asset('img/no-image.png');
             @endphp
 
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4 h-100 d-flex flex-column">
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-4">
+                <div class="product-item bg-light h-100 d-flex flex-column">
 
-                    
-                    <div class="product-img position-relative overflow-hidden d-flex align-items-center justify-content-center"
-                         style="height: 260px; background: #fff;">
+                   
+                    <div class="product-img-fixed">
                         <img
-                            src="{{ asset('img/SanPham/' . $sp->HinhAnh) }}"
+                            src="{{ $anh }}"
                             alt="{{ $sp->TenSanPham }}"
-                            style="max-width:100%; max-height:100%; object-fit:contain;"
                         >
 
                         <div class="product-action">
@@ -38,48 +42,41 @@
                         </div>
                     </div>
 
-                   
-                    <div class="product-info text-center px-2 py-3 flex-grow-1 d-flex flex-column justify-content-between">
+                    
+                    <div class="product-info text-center px-2 py-3 d-flex flex-column justify-content-between flex-grow-1">
 
                         
                         <div class="product-info-top">
                             <a href="#" class="product-title-link">
-                                <div class="product-title-wrapper">
-                                    <span class="product-title-text">
-                                        {{ $sp->TenSanPham }}
-                                        @if(!empty($bienThe->TenBienThe))
-                                            | <strong>{{ $bienThe->TenBienThe }}</strong>
-                                        @endif
-                                    </span>
-                                </div>
+                                <span class="product-title-text">
+                                    {{ $sp->TenSanPham }}
+                                    @if(!empty($bienThe?->TenBienThe))
+                                        | <strong>{{ $bienThe->TenBienThe }}</strong>
+                                    @endif
+                                </span>
                             </a>
                         </div>
 
-                        
+                       
                         <div class="product-info-bottom mt-2">
 
-                            <h5 class="mb-1">
+                            <h5 class="mb-1 text-danger">
                                 {{ number_format($bienThe->GiaBan ?? 0) }} đ
                             </h5>
 
                             <div class="d-flex align-items-center justify-content-center">
-                                
-                                @for($i = 1; $i <= floor($diemTrungBinh); $i++)
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                @endfor
-
-                                
-                                @for($i = floor($diemTrungBinh) + 1; $i <= 5; $i++)
-                                    <small class="fa fa-star text-muted mr-1"></small>
+                                @for($i = 1; $i <= 5; $i++)
+                                    <small class="fa fa-star {{ $i <= floor($diemTrungBinh) ? 'text-primary' : 'text-muted' }} mr-1"></small>
                                 @endfor
 
                                 <small class="ml-1">
                                     ({{ $tongDanhGia }} đánh giá)
                                 </small>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
+
                 </div>
             </div>
         @endforeach

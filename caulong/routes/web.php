@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\YeuThichController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\SanPhamController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -21,3 +23,13 @@ Route::delete('/yeu-thich/{id}', [YeuThichController::class, 'destroy'])
 Route::get('/khuyen-mai/tet-2026', function () {
     return view('promotions.tet2026');
 });
+
+
+Route::get('/shop', [ShopController::class, 'index'])
+    ->name('shop.index');
+
+
+
+Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])
+    ->name('sanpham.chitiet');
+

@@ -18,4 +18,9 @@ class BienTheSanPham extends Model
         'SoLuongTon',
         'HinhAnh'
     ];
+
+    public function sanPham()
+    {
+        return $this->belongsTo(SanPham::class, 'MaSanPham', 'MaSanPham');
+    }
 }

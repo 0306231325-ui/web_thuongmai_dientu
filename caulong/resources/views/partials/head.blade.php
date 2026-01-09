@@ -15,5 +15,10 @@
 <link href="{{ asset('css/style.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
 <link rel="stylesheet" href="{{ asset('css/categories.css') }}">
+<link rel="stylesheet" href="{{ asset('css/shop.css') }}">
+<link rel="stylesheet" href="{{ asset('css/product.css') }}">
+<link rel="stylesheet" href="{{ asset('css/product-detail.css') }}">
+
+
 
 

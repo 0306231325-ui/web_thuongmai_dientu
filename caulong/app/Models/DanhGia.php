@@ -18,4 +18,14 @@ class DanhGia extends Model
         'BinhLuan',
         'NgayDanhGia'
     ];
+
+    public function sanPham()
+    {
+        return $this->belongsTo(SanPham::class, 'MaSanPham', 'MaSanPham');
+    }
+
+    public function nguoiDung()
+    {
+        return $this->belongsTo(NguoiDung::class, 'MaNguoiDung', 'MaNguoiDung');
+    }
 }
