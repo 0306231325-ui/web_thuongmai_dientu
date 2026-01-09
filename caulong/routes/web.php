@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\YeuThichController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SanPhamController;
+use App\Models\BienTheSanPham;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -32,4 +33,11 @@ Route::get('/shop', [ShopController::class, 'index'])
 
 Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])
     ->name('sanpham.chitiet');
+
+use App\Http\Controllers\Ajax\BienTheController;
+
+Route::prefix('ajax')->group(function () {
+    Route::get('/bien-the/{id}', [BienTheController::class, 'show']);
+});
+
 

@@ -1,45 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="product-data"
-     data-bienthes='@json($sanPham->bienThes->keyBy("MaBienThe"))'>
-</div>
 
 <div class="container mt-4">
 
     
     <div class="row">
+
         
-     <div class="col-md-5">
-    <div class="position-relative product-image-box">
+        <div class="col-md-5">
+            <div class="position-relative product-image-box">
 
-        <button class="img-arrow left" id="btnPrev">‹</button>
+                <button class="img-arrow left" id="btnPrev">‹</button>
 
-        <img id="mainImage"
-             src="{{ asset('img/hinhanhsanpham/' . $sanPham->hinhAnhChinh->DuongDan) }}"
-             data-default-src="{{ asset('img/hinhanhsanpham/' . $sanPham->hinhAnhChinh->DuongDan) }}"
-             class="img-fluid border">
+                <img id="mainImage"
+                     src="{{ asset('img/hinhanhsanpham/' . $sanPham->hinhAnhChinh->DuongDan) }}"
+                     class="img-fluid border">
 
-        <button class="img-arrow right" id="btnNext">›</button>
+                <button class="img-arrow right" id="btnNext">›</button>
 
-    </div>
+            </div>
 
-    <div class="d-flex gap-2 mt-2">
-        @foreach($sanPham->hinhAnhs as $index => $img)
-            <img src="{{ asset('img/hinhanhsanpham/' . $img->DuongDan) }}"
-                 class="border thumb-img"
-                 data-index="{{ $index }}"
-                 style="width:70px; cursor:pointer">
-        @endforeach
-    </div>
-</div>
-
-
-
-
+            
+            <div class="d-flex gap-2 mt-2">
+                @foreach($sanPham->hinhAnhs as $index => $img)
+                    <img src="{{ asset('img/hinhanhsanpham/' . $img->DuongDan) }}"
+                         class="border thumb-img"
+                         data-index="{{ $index }}"
+                         style="width:70px; height:70px; object-fit:cover; cursor:pointer">
+                @endforeach
+            </div>
+        </div>
 
         
         <div class="col-md-7">
+
             <h3>{{ $sanPham->TenSanPham }}</h3>
 
             <p>
@@ -80,16 +75,16 @@
                     disabled>
                 Thêm vào giỏ
             </button>
+
         </div>
     </div>
 
-
+    
     <hr>
     <h5>Mô tả</h5>
     <p>{{ $sanPham->MoTaChiTiet }}</p>
 
-
-   
+    
     <hr>
     <h5>Đánh giá</h5>
 
@@ -97,7 +92,7 @@
         $avg = round($sanPham->danhGias->avg('SoSao'), 1);
     @endphp
 
-    <p>Số Sao {{ $avg }}/5 ({{ $sanPham->danhGias->count() }} đánh giá)</p>
+    <p>⭐ {{ $avg }}/5 ({{ $sanPham->danhGias->count() }} đánh giá)</p>
 
     @foreach($sanPham->danhGias as $dg)
         <div class="border-bottom mb-2 pb-2">
@@ -115,5 +110,3 @@
 @push('scripts')
 <script src="{{ asset('js/product-detail.js') }}"></script>
 @endpush
-
-

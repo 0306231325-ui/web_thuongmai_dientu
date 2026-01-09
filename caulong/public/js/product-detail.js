@@ -1,66 +1,81 @@
-const el = document.getElementById('product-data');
-const bienThes = JSON.parse(el.dataset.bienthes);
+document.addEventListener('DOMContentLoaded', () => {
 
-const mainImage = document.getElementById('mainImage');
-const thumbs = document.querySelectorAll('.thumb-img');
 
-let currentIndex = 0;
+    const mainImage = document.getElementById('mainImage');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    let thumbs = document.querySelectorAll('.thumb-img');
 
-// ====== THUMB CLICK ======
-thumbs.forEach((thumb, index) => {
-    thumb.addEventListener('click', () => {
-        setImage(index);
+    if (!mainImage || thumbs.length === 0) return;
+
+    let currentIndex = 0;
+
+    function setImage(index) {
+        if (index < 0) index = thumbs.length - 1;
+        if (index >= thumbs.length) index = 0;
+
+        thumbs.forEach(t => t.classList.remove('active'));
+
+        mainImage.src = thumbs[index].src;
+        thumbs[index].classList.add('active');
+
+        currentIndex = index;
+    }
+
+    thumbs.forEach((thumb, index) => {
+        thumb.addEventListener('click', () => {
+            setImage(index);
+        });
     });
-});
 
-// ====== SET IMAGE ======
-function setImage(index) {
-    thumbs.forEach(t => t.classList.remove('active'));
-
-    const img = thumbs[index];
-    mainImage.src = img.src;
-    img.classList.add('active');
-    currentIndex = index;
-}
-
-// ====== ARROW ======
-document.getElementById('btnPrev').onclick = () => {
-    currentIndex =
-        (currentIndex - 1 + thumbs.length) % thumbs.length;
-    setImage(currentIndex);
-};
-
-document.getElementById('btnNext').onclick = () => {
-    currentIndex =
-        (currentIndex + 1) % thumbs.length;
-    setImage(currentIndex);
-};
-
-// ====== VARIANT ======
-document.querySelectorAll('.variant-item').forEach(item => {
-    item.addEventListener('click', () => {
-
-        document.querySelectorAll('.variant-item')
-            .forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-
-        const bt = bienThes[item.dataset.id];
-
-        // Giá
-        document.getElementById('giaBan').innerText =
-            new Intl.NumberFormat('vi-VN')
-                .format(bt.GiaBan) + ' ₫';
-
-        // Tồn kho
-        document.getElementById('tonKho').innerText =
-            bt.SoLuongTon > 0 ? 'Còn hàng' : 'Hết hàng';
-
-        document.getElementById('btnAddToCart').disabled =
-            bt.SoLuongTon <= 0;
+    btnPrev?.addEventListener('click', () => {
+        setImage(currentIndex - 1);
     });
-});
 
-// ====== INIT ======
-if (thumbs.length > 0) {
+    btnNext?.addEventListener('click', () => {
+        setImage(currentIndex + 1);
+    });
+
     setImage(0);
-}
+
+
+
+    document.querySelectorAll('.variant-item').forEach(item => {
+        item.addEventListener('click', function () {
+
+      
+            document.querySelectorAll('.variant-item')
+                .forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+
+            const id = this.dataset.id;
+
+            fetch(`/ajax/bien-the/${id}`)
+                .then(res => {
+                    if (!res.ok) throw new Error();
+                    return res.json();
+                })
+                .then(data => {
+
+                
+                    document.getElementById('giaBan').innerText =
+                        new Intl.NumberFormat('vi-VN')
+                            .format(data.GiaBan) + ' ₫';
+
+               
+                    document.getElementById('tonKho').innerText =
+                        data.SoLuongTon > 0
+                            ? `Còn ${data.SoLuongTon} sản phẩm`
+                            : 'Hết hàng';
+
+                    document.getElementById('btnAddToCart').disabled =
+                        data.SoLuongTon <= 0;
+
+                })
+                .catch(() => {
+                    alert('Không tải được biến thể');
+                });
+        });
+    });
+
+});
