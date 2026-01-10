@@ -1,6 +1,6 @@
 <div class="container-fluid pt-5 pb-3">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
-        <span class="bg-secondary pr-3">Sản Phẩm</span>
+        <span class="bg-secondary pr-3">Sản Phẩm Mới Nhất</span>
     </h2>
 
     <div class="row px-xl-5">
@@ -30,7 +30,7 @@
                         >
 
                         <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href="#">
+                            <a class="btn btn-outline-dark btn-square" href="{{ route('sanpham.chitiet', $sp->Slug) }}">
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
                             <a class="btn btn-outline-dark btn-square" href="#">

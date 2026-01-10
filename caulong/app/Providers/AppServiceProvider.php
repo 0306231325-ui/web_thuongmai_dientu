@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Providers;
-
+use App\Models\DanhMuc;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,5 +21,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        View::composer('*', function ($view) {
+        $danhMucs = DanhMuc::whereNull('DanhMucCha')->get();
+        $view->with('danhMucs', $danhMucs);
+    });
     }
 }

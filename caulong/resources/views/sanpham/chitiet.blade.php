@@ -7,7 +7,8 @@
 
 <div class="container mt-4">
 
-    
+ <a href="{{ route('shop.index') }}" class="btn mb-3" style="background: linear-gradient(45deg, #ff6b6b, #ff4757); color: white;"> Quay về </a>
+ 
     <div class="row">
         
      <div class="col-md-5">
@@ -35,10 +36,6 @@
 </div>
 
 
-
-
-
-        
         <div class="col-md-7">
             <h3>{{ $sanPham->TenSanPham }}</h3>
 
@@ -88,8 +85,6 @@
     <h5>Mô tả</h5>
     <p>{{ $sanPham->MoTaChiTiet }}</p>
 
-
-   
     <hr>
     <h5>Đánh giá</h5>
 
