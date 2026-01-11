@@ -11,7 +11,7 @@ class GioHangController extends Controller
     // TEST CỨNG GIỎ HÀNG
     private int $TEST_GIO_HANG_ID = 1;
 
-    // Hiển thị giỏ hàng
+    
     public function index()
     {
         $gioHang = GioHang::findOrFail($this->TEST_GIO_HANG_ID);
@@ -27,7 +27,7 @@ class GioHangController extends Controller
         return view('giohang.index', compact('items', 'total'));
     }
 
-    // Thêm sản phẩm vào giỏ
+    
     public function add(Request $request, $maBienThe)
     {
         $soLuong = $request->input('soLuong', 1);
@@ -45,7 +45,7 @@ class GioHangController extends Controller
         return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng');
     }
 
-    // Cập nhật số lượng
+    
     public function update(Request $request, $maBienThe)
     {
         $soLuong = max(1, (int)$request->soLuong);
@@ -57,7 +57,7 @@ class GioHangController extends Controller
         return redirect()->back();
     }
 
-    // Xóa sản phẩm khỏi giỏ
+    
     public function remove($maBienThe)
     {
         ChiTietGioHang::where('MaGioHang', $this->TEST_GIO_HANG_ID)

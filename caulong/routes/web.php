@@ -9,11 +9,7 @@ use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\GioHangController;
 use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
+
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -55,6 +51,11 @@ Route::prefix('gio-hang')->group(function () {
     Route::post('/remove/{maBienThe}', [GioHangController::class, 'remove'])
         ->name('giohang.remove');
 });
+
+// Checkout
+Route::get('/checkout', function () {
+    return view('checkout-html');
+})->name('checkout');
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

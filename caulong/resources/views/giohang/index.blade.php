@@ -88,7 +88,7 @@
                 ← Tiếp tục mua
             </a>
 
-            <a href="#" class="btn btn-success ms-2">
+            <a href="{{ route('checkout') }}" class="btn btn-success ms-2" class="btn btn-success ms-2">
                 Thanh toán
             </a>
         </div>
