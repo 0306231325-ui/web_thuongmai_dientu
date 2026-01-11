@@ -6,16 +6,18 @@
             <a class="btn d-flex align-items-center justify-content-between bg-warning text-dark w-100"
                data-toggle="collapse"
                href="#navbar-vertical"
-               style="height: 56px; padding: 0 20px;">
+               style="height:56px; padding:0 20px;">
                 <span><i class="fa fa-bars mr-2"></i>Danh mục</span>
                 <i class="fa fa-angle-down"></i>
             </a>
+
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light bg-light p-0"
                  id="navbar-vertical"
-                 style="width: calc(100% - 30px); z-index: 999;">
+                 style="width: calc(100% - 30px); z-index:999;">
                 <div class="navbar-nav w-100">
                     @foreach($danhMucs as $dm)
-                        <a href="{{ route('shop.danhmuc', $dm->Slug) }}" class="nav-item nav-link">
+                        <a href="{{ route('shop.danhmuc', $dm->Slug) }}"
+                           class="nav-item nav-link">
                             {{ $dm->TenDanhMuc }}
                         </a>
                     @endforeach
@@ -27,6 +29,7 @@
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-0" style="height:56px;">
                 <div class="collapse navbar-collapse show align-items-center">
+
                     <div class="navbar-nav mr-auto">
                         <a href="{{ url('/') }}" class="nav-item nav-link">Trang chủ</a>
                         <a href="{{ route('shop.index') }}" class="nav-item nav-link">Sản phẩm</a>
@@ -34,12 +37,30 @@
                         <a href="#" class="nav-item nav-link">Hỗ trợ</a>
                         <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
                     </div>
+
+                    <!-- GIỎ HÀNG -->
                     <div class="navbar-nav ml-auto">
-                        <a href="#" class="nav-item nav-link d-flex align-items-center">
+                        <a href="{{ route('gio-hang') }}"
+                           class="nav-item nav-link d-flex align-items-center position-relative"
+                           style="font-size:18px;">
+
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="badge badge-light ml-2">0</span>
+
+                            @if(!empty($cartCount) && $cartCount > 0)
+                                <span class="badge badge-danger position-absolute"
+                                      style="
+                                        top:0;
+                                        right:-10px;
+                                        font-size:11px;
+                                        padding:4px 6px;
+                                        border-radius:50%;
+                                      ">
+                                    {{ $cartCount }}
+                                </span>
+                            @endif
                         </a>
                     </div>
+
                 </div>
             </nav>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\YeuThichController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SanPhamController;
+use App\Http\Controllers\GioHangController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -29,3 +30,22 @@ Route::get('/shop/danh-muc/{slug}', [ShopController::class, 'index'])->name('sho
 
 
 Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])->name('sanpham.chitiet');
+
+
+
+
+
+Route::prefix('gio-hang')->group(function () {
+
+    Route::get('/', [GioHangController::class, 'index'])
+        ->name('gio-hang');
+
+    Route::post('/add/{maBienThe}', [GioHangController::class, 'add'])
+        ->name('giohang.add');
+
+    Route::post('/update/{maBienThe}', [GioHangController::class, 'update'])
+        ->name('giohang.update');
+
+    Route::post('/remove/{maBienThe}', [GioHangController::class, 'remove'])
+        ->name('giohang.remove');
+});
