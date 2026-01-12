@@ -4,41 +4,34 @@ namespace App\Providers;
 
 use App\Models\DanhMuc;
 use App\Models\ChiTietGioHang;
+use App\Models\GioHang;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+    public function register(): void {}
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         View::composer('*', function ($view) {
 
-            // ===== DANH MỤC =====
+            
             $danhMucs = DanhMuc::whereNull('DanhMucCha')->get();
 
-            // ===== GIỎ HÀNG (TEST CỨNG) =====
-            $TEST_GIO_HANG_ID = 1;
+            $cartCount = 0;
 
-            $cartCount = ChiTietGioHang::where('MaGioHang', $TEST_GIO_HANG_ID)
-            ->count();
+            if (Auth::check()) {
+                $gioHang = GioHang::where('MaNguoiDung', Auth::id())->first();
 
+                if ($gioHang) {
+                    $cartCount = ChiTietGioHang::where('MaGioHang', $gioHang->MaGioHang)
+                        ->sum('SoLuong');
+                }
+            }
 
-            // ===== SHARE VIEW =====
-            $view->with([
-                'danhMucs'  => $danhMucs,
-                'cartCount' => $cartCount,
-            ]);
+            $view->with(compact('danhMucs', 'cartCount'));
         });
     }
 }

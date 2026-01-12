@@ -25,9 +25,6 @@ class SanPham extends Model
         'TrangThai' => 'boolean',
     ];
 
-    // ⭐ QUAN HỆ ĐÁNH GIÁ
-
-
     public function danhGias()
     {
         return $this->hasMany(DanhGia::class, 'MaSanPham', 'MaSanPham');
@@ -59,8 +56,5 @@ public function hinhAnhChinh()
                 ->where('LaAnhChinh', 1);
 }
 
-
-   
-    
 
 }

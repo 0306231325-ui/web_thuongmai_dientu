@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row align-items-center bg-light py-3 px-xl-5">
 
-        <!-- Logo -->
+        
         <div class="col-lg-4 col-md-4 text-center text-lg-left mb-2 mb-lg-0">
             <a href="{{ url('/') }}">
                 <img 
@@ -12,25 +12,29 @@
             </a>
         </div>
 
-        <!-- Search -->
-        <div class="col-lg-4 col-md-4 col-12 mb-2 mb-lg-0">
-            <form>
-                <div class="input-group">
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        placeholder="Search for products"
-                    >
-                    <div class="input-group-append">
-                        <span class="input-group-text bg-transparent">
-                            <i class="fa fa-search text-primary"></i>
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </div>
+        
+<div class="col-lg-4 col-md-4 col-12 mb-2 mb-lg-0">
+    <form action="{{ route('shop.index') }}" method="GET">
+        <div class="input-group">
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Tìm kiếm sản phẩm..."
+                value="{{ request('q') }}"
+            >
+            <div class="input-group-append">
+    <button class="btn btn-outline-primary" type="submit">
+        <i class="fa fa-search"></i>
+    </button>
+</div>
 
-        <!-- My Account -->
+        </div>
+    </form>
+</div>
+
+
+        
 <div class="col-lg-4 col-md-4 text-center text-lg-right">
     <div class="btn-group">
         <button 
@@ -41,7 +45,7 @@
             @guest
                 My Account
             @else
-                {{ Auth::user()->HoTen }} <!-- Hiển thị tên đăng nhập -->
+                {{ Auth::user()->HoTen }} 
             @endguest
         </button>
 
@@ -50,7 +54,7 @@
                 <a class="dropdown-item" href="{{ route('login') }}">
                     Sign in
                 </a>
-                {{-- Nếu không dùng register, có thể xóa --}}
+                
                 <a class="dropdown-item" href="{{ route('register') }}">
                     Sign up
                 </a>

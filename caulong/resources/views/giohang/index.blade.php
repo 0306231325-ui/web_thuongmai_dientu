@@ -26,7 +26,7 @@
                 <td>{{ $item->bienTheSanPham->TenBienThe }}</td>
                 <td>{{ number_format($item->bienTheSanPham->GiaBan) }}₫</td>
 
-                {{-- SỐ LƯỢNG --}}
+               
                 <td>
                     <input type="number"
                            name="soLuong"
@@ -37,15 +37,14 @@
                            form="update-{{ $item->MaBienThe }}">
                 </td>
 
-                {{-- THÀNH TIỀN --}}
                 <td>
                     {{ number_format($item->SoLuong * $item->bienTheSanPham->GiaBan) }}₫
                 </td>
 
-                {{-- THAO TÁC --}}
                 <td>
+              
                     <form id="update-{{ $item->MaBienThe }}"
-                          action="{{ route('giohang.update', $item->MaBienThe) }}"
+                          action="{{ route('gio-hang.update', $item->MaBienThe) }}"
                           method="POST"
                           class="mb-1">
                         @csrf
@@ -54,9 +53,11 @@
                         </button>
                     </form>
 
-                    <form action="{{ route('giohang.remove', $item->MaBienThe) }}"
+              
+                    <form action="{{ route('gio-hang.remove', $item->MaBienThe) }}"
                           method="POST">
                         @csrf
+                        @method('DELETE')
                         <button class="btn btn-sm btn-danger w-100"
                                 onclick="return confirm('Xóa sản phẩm này?')">
                             Xóa
@@ -74,25 +75,36 @@
         </tbody>
     </table>
 
-    {{-- TỔNG TIỀN + THANH TOÁN --}}
+ 
     <div class="d-flex justify-content-between align-items-center mt-4">
-        <h4>
-            Tổng tiền:
-            <span class="text-danger">
-                {{ number_format($total) }}₫
-            </span>
-        </h4>
+    <h4>
+        Tổng tiền:
+        <span class="text-danger">
+            {{ number_format($total) }}₫
+        </span>
+    </h4>
 
-        <div>
-            <a href="{{ url('/shop') }}" class="btn btn-outline-secondary">
-                ← Tiếp tục mua
-            </a>
+    <div>
+        <a href="{{ url('/shop') }}" class="btn btn-secondary">
+            ← Tiếp tục mua
+        </a>
 
-            <a href="{{ route('checkout') }}" class="btn btn-success ms-2" class="btn btn-success ms-2">
-                Thanh toán
-            </a>
-        </div>
+        <a href="{{ route('checkout') }}" class="btn btn-success ms-2">
+            Thanh toán
+        </a>
+
+        <form action="{{ route('gio-hang.clear') }}" method="POST" 
+              class="d-inline-block ms-2" 
+              onsubmit="return confirm('Bạn có chắc chắn muốn xóa tất cả sản phẩm trong giỏ hàng?')">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-danger">
+                Xóa hết giỏ hàng
+            </button>
+        </form>
     </div>
+</div>
+
 
 </div>
 @endsection

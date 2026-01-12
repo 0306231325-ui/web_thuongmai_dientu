@@ -4,25 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\GioHang;
 use App\Models\ChiTietGioHang;
+use App\Models\BienTheSanPham;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GioHangController extends Controller
 {
-    // TEST CỨNG GIỎ HÀNG
-    private int $TEST_GIO_HANG_ID = 1;
+    private function getGioHang()
+    {
+        return GioHang::firstOrCreate([
+            'MaNguoiDung' => Auth::id()
+        ]);
+    }
 
     
     public function index()
     {
-        $gioHang = GioHang::findOrFail($this->TEST_GIO_HANG_ID);
+        $gioHang = $this->getGioHang();
 
         $items = ChiTietGioHang::with('bienTheSanPham.sanPham')
             ->where('MaGioHang', $gioHang->MaGioHang)
             ->get();
 
-        $total = $items->sum(function ($item) {
-            return $item->SoLuong * ($item->bienTheSanPham->GiaBan ?? 0);
-        });
+        $total = $items->sum(fn ($item) =>
+            $item->SoLuong * ($item->bienTheSanPham->GiaBan ?? 0)
+        );
 
         return view('giohang.index', compact('items', 'total'));
     }
@@ -30,9 +36,9 @@ class GioHangController extends Controller
     
     public function add(Request $request, $maBienThe)
     {
-        $soLuong = $request->input('soLuong', 1);
+        $soLuong = max(1, (int) $request->input('soLuong', 1));
 
-        $gioHang = GioHang::findOrFail($this->TEST_GIO_HANG_ID);
+        $gioHang = $this->getGioHang();
 
         $item = ChiTietGioHang::firstOrNew([
             'MaGioHang' => $gioHang->MaGioHang,
@@ -42,28 +48,105 @@ class GioHangController extends Controller
         $item->SoLuong = ($item->SoLuong ?? 0) + $soLuong;
         $item->save();
 
-        return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng');
+        return back()->with('success', 'Đã thêm vào giỏ hàng');
     }
-
-    
-    public function update(Request $request, $maBienThe)
-    {
-        $soLuong = max(1, (int)$request->soLuong);
-
-        ChiTietGioHang::where('MaGioHang', $this->TEST_GIO_HANG_ID)
-            ->where('MaBienThe', $maBienThe)
-            ->update(['SoLuong' => $soLuong]);
-
-        return redirect()->back();
-    }
-
-    
     public function remove($maBienThe)
     {
-        ChiTietGioHang::where('MaGioHang', $this->TEST_GIO_HANG_ID)
+        $gioHang = $this->getGioHang();
+
+        
+        ChiTietGioHang::where('MaGioHang', $gioHang->MaGioHang)
             ->where('MaBienThe', $maBienThe)
             ->delete();
 
-        return redirect()->back();
+        return back()->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng');
     }
+
+    public function update(Request $request, $maBienThe)
+    {
+        
+        $gioHang = $this->getGioHang();
+        $soLuongMoi = max(1, (int) $request->soLuong); 
+
+        
+        $bienThe = BienTheSanPham::find($maBienThe);
+        
+        if ($bienThe && $soLuongMoi > $bienThe->SoLuongTon) {
+            return back()->with('error', "Kho chỉ còn {$bienThe->SoLuongTon} sản phẩm, không đủ số lượng bạn yêu cầu.");
+        }
+
+        
+        ChiTietGioHang::where('MaGioHang', $gioHang->MaGioHang)
+            ->where('MaBienThe', $maBienThe)
+            ->update(['SoLuong' => $soLuongMoi]);
+
+        return back()->with('success', 'Đã cập nhật số lượng');
+    }
+
+    
+
+    
+  public function addAjax(Request $request, $maBienThe)
+    {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'Bạn cần đăng nhập'], 401);
+        }
+
+        $soLuongThem = (int) $request->soLuong;
+        if ($soLuongThem <= 0) {
+            return response()->json(['success' => false, 'message' => 'Số lượng không hợp lệ'], 400);
+        }
+
+        $bienThe = BienTheSanPham::find($maBienThe);
+
+        if (!$bienThe) {
+            return response()->json(['success' => false, 'message' => 'Sản phẩm không tồn tại'], 404);
+        }
+
+        $gioHang = $this->getGioHang();
+
+        $item = ChiTietGioHang::where('MaGioHang', $gioHang->MaGioHang)
+            ->where('MaBienThe', $maBienThe)
+            ->first();
+
+        $soLuongTrongGio = $item ? $item->SoLuong : 0;
+        $tongSoLuongDuKien = $soLuongTrongGio + $soLuongThem;
+
+        if ($tongSoLuongDuKien > $bienThe->SoLuongTon) {
+            return response()->json([
+                'success' => false,
+                'message' => "Kho chỉ còn {$bienThe->SoLuongTon} sản phẩm. (Giỏ đã có {$soLuongTrongGio})"
+            ], 400);
+        }
+
+        if ($item) {
+            ChiTietGioHang::where('MaGioHang', $gioHang->MaGioHang)
+                ->where('MaBienThe', $maBienThe)
+                ->update(['SoLuong' => $tongSoLuongDuKien]);
+        } else {
+            ChiTietGioHang::create([
+                'MaGioHang' => $gioHang->MaGioHang,
+                'MaBienThe' => $maBienThe,
+                'SoLuong' => $soLuongThem
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã thêm vào giỏ hàng'
+        ]);
+    }
+    public function clear()
+{
+    $gioHang = $this->getGioHang();
+
+    if ($gioHang) {
+        // Xóa hết sản phẩm trong giỏ hàng
+        $gioHang->chiTiet()->delete();
+    }
+
+    return redirect()->route('gio-hang')
+        ->with('success', 'Đã xóa tất cả sản phẩm trong giỏ hàng.');
+}
+
 }

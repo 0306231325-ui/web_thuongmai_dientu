@@ -36,9 +36,12 @@
                             <a class="btn btn-outline-dark btn-square" href="#">
                                 <i class="far fa-heart"></i>
                             </a>
-                            <a class="btn btn-outline-dark btn-square" href="#">
+                            <a class="btn btn-outline-dark btn-square" 
+                            href="{{ route('shop.index', ['q' => $sp->TenSanPham]) }}">
                                 <i class="fa fa-search"></i>
                             </a>
+
+                            
                         </div>
                     </div>
 
