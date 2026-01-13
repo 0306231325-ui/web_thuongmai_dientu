@@ -35,7 +35,11 @@
                         <a href="{{ route('shop.index') }}" class="nav-item nav-link">Sản phẩm</a>
                         <a href="{{ route('contact') }}" class="nav-item nav-link">Liên hệ</a>
                         <a href="#" class="nav-item nav-link">Hỗ trợ</a>
+
                         <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
+
+                        <a href="{{ route('admin.index') }}" class="nav-item nav-link">ADMIN</a>
+
                     </div>
 
                     <!-- GIỎ HÀNG -->
