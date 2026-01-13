@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\DiaChiNguoiDung;
 
 class NguoiDung extends Authenticatable
 {
@@ -57,4 +58,10 @@ class NguoiDung extends Authenticatable
             'MaVaiTro'
         );
     }
+
+    public function diaChi()
+{
+    
+    return $this->hasMany(DiaChiNguoiDung::class, 'MaNguoiDung', 'MaNguoiDung');
+}
 }

@@ -17,7 +17,6 @@
     </div>
 @endif
 
-
     <a href="{{ route('shop.index') }}"
        class="btn mb-3"
        style="background: linear-gradient(45deg, #ff6b6b, #ff4757); color: white;">
@@ -156,6 +155,4 @@
 </div>
 @endsection
 
-@push('scripts')
-<script src="{{ asset('js/product-detail.js') }}"></script>
-@endpush
+

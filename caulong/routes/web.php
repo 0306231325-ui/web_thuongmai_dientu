@@ -9,9 +9,7 @@ use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\GioHangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DanhGiaController;
-
-
-
+use App\Http\Controllers\CheckoutController; 
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -77,8 +75,18 @@ Route::post(
 )->name('giohang.add.ajax');
 
 
-Route::get('/checkout', fn () => view('checkout-html'))
-    ->name('checkout');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/checkout', [CheckoutController::class, 'index'])
+        ->name('checkout');
+
+    Route::post('/checkout/process', [CheckoutController::class, 'process'])
+        ->name('checkout.process');
+
+    Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])
+        ->name('checkout.success');
+});
 
 
 Route::get('/login', [AuthController::class, 'showLogin'])

@@ -14,7 +14,7 @@
                 <th>Biến thể</th>
                 <th>Đơn giá</th>
                 <th style="width:140px">Số lượng</th>
-                <th>Giá tiền</th>
+                <th>Thành tiền</th>
                 <th style="width:130px">Thao tác</th>
             </tr>
         </thead>
