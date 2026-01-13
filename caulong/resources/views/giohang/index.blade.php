@@ -14,7 +14,7 @@
                 <th>Biến thể</th>
                 <th>Đơn giá</th>
                 <th style="width:140px">Số lượng</th>
-                <th>Thành tiền</th>
+                <th>Giá tiền</th>
                 <th style="width:130px">Thao tác</th>
             </tr>
         </thead>
@@ -75,7 +75,10 @@
         </tbody>
     </table>
 
- 
+    <div class="d-flex justify-content-center mt-4">
+    {{ $items->links('pagination::bootstrap-4') }}
+</div>
+
     <div class="d-flex justify-content-between align-items-center mt-4">
     <h4>
         Tổng tiền:

@@ -13,6 +13,7 @@ use App\Http\Controllers\DanhGiaController;
 
 
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
@@ -65,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/gio-hang/remove/{maBienThe}', [GioHangController::class, 'remove'])
         ->name('gio-hang.remove');
 });
+
 
 
 

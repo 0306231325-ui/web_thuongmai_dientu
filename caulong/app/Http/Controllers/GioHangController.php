@@ -23,8 +23,9 @@ class GioHangController extends Controller
         $gioHang = $this->getGioHang();
 
         $items = ChiTietGioHang::with('bienTheSanPham.sanPham')
-            ->where('MaGioHang', $gioHang->MaGioHang)
-            ->get();
+        ->where('MaGioHang', $gioHang->MaGioHang)
+        ->paginate(3); 
+
 
         $total = $items->sum(fn ($item) =>
             $item->SoLuong * ($item->bienTheSanPham->GiaBan ?? 0)
