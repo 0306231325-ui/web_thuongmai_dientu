@@ -118,4 +118,8 @@ Route::get('/admin/comments', function () {
 Route::get('/admin/categories', function () {
     return view('admin.categories');
 })->name('admin.categories');
+//Nam them 14/1
+use App\Http\Controllers\Admin\SanPhamAdminController;
 
+Route::get('/admin/products', [SanPhamAdminController::class, 'index'])
+    ->name('admin.products');
