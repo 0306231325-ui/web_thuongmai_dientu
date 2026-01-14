@@ -13,12 +13,9 @@
             <hr>
             
             <div class="d-flex justify-content-center gap-3 mt-4">
-                <a href="{{ url('/') }}" class="btn btn-outline-secondary">
+                <a href="{{ url('/') }}">
                     Về trang chủ
                 </a>
-                {{-- <a href="{{ route('don-hang.detail', $donHang->MaDonHang) }}" class="btn btn-primary">
-                    Xem chi tiết đơn hàng
-                </a> --}}
             </div>
         </div>
     </div>

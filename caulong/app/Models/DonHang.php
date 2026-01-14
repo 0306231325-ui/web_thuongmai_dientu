@@ -11,7 +11,7 @@ class DonHang extends Model
 
     protected $table = 'DonHang';
     protected $primaryKey = 'MaDonHang';
-    public $timestamps = false; 
+    public $timestamps = false;
 
     protected $fillable = [
         'MaNguoiDung',
@@ -26,31 +26,31 @@ class DonHang extends Model
         'MaPhuongThucTT',
         'TrangThaiThanhToan',
         'TrangThaiDonHang',
-        'GhiChu'
+        'GhiChu',
     ];
-
 
     protected $casts = [
         'NgayDat' => 'datetime',
-        'TrangThaiThanhToan' => 'boolean', 
+        'TrangThaiThanhToan' => 'boolean',
         'TongTien' => 'decimal:2',
     ];
 
- 
     public function chiTiet()
     {
         return $this->hasMany(ChiTietDonHang::class, 'MaDonHang', 'MaDonHang');
     }
 
-
     public function nguoiDung()
     {
-        return $this->belongsTo(NguoiDung::class, 'MaNguoiDung', 'MaNguoiDung'); 
+        return $this->belongsTo(NguoiDung::class, 'MaNguoiDung', 'MaNguoiDung');
     }
-
 
     public function phuongThucThanhToan()
     {
-        return $this->belongsTo(PhuongThucThanhToan::class, 'MaPhuongThucTT', 'MaPhuongThuc');
+        return $this->belongsTo(
+            PhuongThucThanhToan::class,
+            'MaPhuongThucTT',
+            'MaPhuongThuc'
+        );
     }
 }

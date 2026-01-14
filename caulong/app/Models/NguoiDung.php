@@ -18,16 +18,16 @@ class NguoiDung extends Authenticatable
     protected $fillable = [
         'TenDangNhap',
         'MatKhau',
-        'TrangThai'
+        'TrangThai',
     ];
 
     protected $hidden = [
-        'MatKhau'
+        'MatKhau',
     ];
 
     /**
-     * Laravel mặc định lấy cột password
-     * Ta override để dùng MatKhau
+     * Laravel mặc định dùng cột password
+     * Override để dùng MatKhau
      */
     public function getAuthPassword()
     {
@@ -59,9 +59,15 @@ class NguoiDung extends Authenticatable
         );
     }
 
-    public function diaChi()
-{
-    
-    return $this->hasMany(DiaChiNguoiDung::class, 'MaNguoiDung', 'MaNguoiDung');
-}
+    /**
+     * Quan hệ địa chỉ người dùng
+     */
+    public function diaChi(): HasMany
+    {
+        return $this->hasMany(
+            DiaChiNguoiDung::class,
+            'MaNguoiDung',
+            'MaNguoiDung'
+        );
+    }
 }
