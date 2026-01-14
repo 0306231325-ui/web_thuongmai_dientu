@@ -8,7 +8,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\GioHangController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\DonHangController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,21 +40,31 @@ Route::get('/shop/danh-muc/{slug}', [ShopController::class, 'index'])->name('sho
 // Sản phẩm
 Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])
     ->name('sanpham.chitiet');
-
-// Giỏ hàng
-Route::prefix('gio-hang')->group(function () {
-    Route::get('/', [GioHangController::class, 'index'])
+    
+// Giỏ hàng (cần đăng nhập)
+Route::middleware('auth')->group(function () {
+    Route::get('/gio-hang', [GioHangController::class, 'index'])
         ->name('gio-hang');
 
-    Route::post('/add/{maBienThe}', [GioHangController::class, 'add'])
-        ->name('giohang.add');
+    Route::post('/gio-hang/add/{maBienThe}', [GioHangController::class, 'add'])
+        ->name('gio-hang.add');
 
-    Route::post('/update/{maBienThe}', [GioHangController::class, 'update'])
-        ->name('giohang.update');
+    Route::post('/gio-hang/update/{maBienThe}', [GioHangController::class, 'update'])
+        ->name('gio-hang.update');
 
-    Route::post('/remove/{maBienThe}', [GioHangController::class, 'remove'])
-        ->name('giohang.remove');
+    Route::delete('/gio-hang/remove/{maBienThe}', [GioHangController::class, 'remove'])
+        ->name('gio-hang.remove');
 });
+
+
+
+
+
+Route::post(
+    '/ajax/gio-hang/add/{maBienThe}',
+    [GioHangController::class, 'addAjax']
+)->name('giohang.add.ajax');
+
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -67,4 +77,22 @@ Route::post('/register', [AuthController::class, 'register']);
 // Admin (cần đăng nhập)
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin', fn () => 'Trang Admin')->name('admin.dashboard');
+});
+// Tài khoản người dùng (cần đăng nhập)
+Route::middleware('auth')->group(function () {
+
+    Route::get('/tai-khoan', [AuthController::class, 'showProfile'])
+        ->name('profile');
+
+    Route::post('/tai-khoan', [AuthController::class, 'updateProfile'])
+        ->name('profile.update');
+
+});
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
+    Route::get('/don-hang/{id}', [DonHangController::class, 'show'])->name('donhang.show');
+    Route::post('/don-hang/{id}/huy', [DonHangController::class, 'cancel'])->name('donhang.cancel');
 });

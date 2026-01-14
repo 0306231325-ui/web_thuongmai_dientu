@@ -98,4 +98,39 @@ class AuthController extends Controller
         \Illuminate\Support\Facades\Auth::logout();
         return redirect('/');
     }
+    public function showProfile()
+    {
+    return view('auth.profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+    $request->validate([
+        'HoTen' => 'required',
+        'Email' => 'required|email',
+        'SoDienThoai' => 'nullable',
+        'MatKhau' => 'nullable|min:6|confirmed',
+    ], [
+        'MatKhau.min' => 'Mật khẩu phải ít nhất 6 ký tự',
+        'MatKhau.confirmed' => 'Mật khẩu nhập lại không khớp',
+    ]);
+
+    $user = Auth::user();
+
+    // cập nhật thông tin
+    $user->HoTen = $request->HoTen;
+    $user->Email = $request->Email;
+    $user->SoDienThoai = $request->SoDienThoai;
+
+    // chỉ đổi mật khẩu nếu user nhập
+    if ($request->filled('MatKhau')) {
+        $user->MatKhau = $request->MatKhau; // theo hệ hiện tại của bạn
+    }
+
+    $user->save();
+
+    return back()->with('success', 'Cập nhật thông tin thành công');
+    }
+
+    
 }

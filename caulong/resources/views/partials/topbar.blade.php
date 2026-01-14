@@ -55,15 +55,25 @@
                     Sign up
                 </a>
 
-            @else
-                <div class="dropdown-divider"></div>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="dropdown-item" type="submit">
-                        Logout
-                    </button>
-                </form>
-            @endguest
+          @else
+            <a class="dropdown-item" href="{{ route('profile') }}">
+                <i class="fa fa-user mr-2"></i> Thông tin tài khoản
+            </a>
+            
+            <a class="dropdown-item" href="{{ route('donhang.index') }}">
+                <i class="fa fa-box me-2"></i> Thông tin đơn hàng
+            </a>
+            
+
+        <div class="dropdown-divider"></div>
+
+        <form method="POST" action="{{ route('logout') }}">
+        @csrf
+            <button class="dropdown-item" type="submit">
+                <i class="fa fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </form>
+        @endguest
         </div>
     </div>
 </div>

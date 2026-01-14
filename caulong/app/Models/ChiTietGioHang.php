@@ -10,6 +10,9 @@ class ChiTietGioHang extends Model
     use HasFactory;
 
     protected $table = 'ChiTietGioHang';
+
+    protected $primaryKey = null;
+
     public $incrementing = false;
     public $timestamps = false;
 
@@ -19,13 +22,13 @@ class ChiTietGioHang extends Model
         'SoLuong',
     ];
 
-    // Thuộc về giỏ hàng
+  
     public function gioHang()
     {
         return $this->belongsTo(GioHang::class, 'MaGioHang', 'MaGioHang');
     }
 
-    // ✅ THUỘC VỀ BIẾN THỂ SẢN PHẨM
+  
     public function bienTheSanPham()
     {
         return $this->belongsTo(
