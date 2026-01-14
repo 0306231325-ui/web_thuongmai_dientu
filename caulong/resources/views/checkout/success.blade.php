@@ -7,6 +7,7 @@
             <div class="text-success mb-3" style="font-size: 5rem;">
                 <i class="bi bi-check-circle-fill"></i> </div>
             <h2 class="mb-3 text-success">Đặt hàng thành công!</h2>
+            
             <p class="lead">Cảm ơn bạn đã mua hàng.</p>
             <hr>
             <div class="d-flex justify-content-center gap-3 mt-4">
