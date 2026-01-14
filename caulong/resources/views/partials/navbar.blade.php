@@ -1,7 +1,7 @@
 <div class="container-fluid bg-dark mb-3">
     <div class="row px-xl-5 align-items-center">
 
-        <!-- DANH MỤC -->
+        
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn d-flex align-items-center justify-content-between bg-warning text-dark w-100"
                data-toggle="collapse"
@@ -25,7 +25,7 @@
             </nav>
         </div>
 
-        <!-- MENU PHẢI -->
+        
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-0" style="height:56px;">
                 <div class="collapse navbar-collapse show align-items-center">
@@ -42,7 +42,7 @@
 
                     </div>
 
-                    <!-- GIỎ HÀNG -->
+            
                     <div class="navbar-nav ml-auto">
                         <a href="{{ route('gio-hang') }}"
                            class="nav-item nav-link d-flex align-items-center position-relative"

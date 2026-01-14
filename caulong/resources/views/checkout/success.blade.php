@@ -8,12 +8,10 @@
                 <i class="bi bi-check-circle-fill"></i> </div>
             <h2 class="mb-3 text-success">Đặt hàng thành công!</h2>
             <p class="lead">Cảm ơn bạn đã mua hàng.</p>
-            <p>Mã đơn hàng của bạn là: <strong>#{{ $donHang->MaDonHang }}</strong></p>
-            
             <hr>
             
             <div class="d-flex justify-content-center gap-3 mt-4">
-                <a href="{{ url('/') }}" class="btn btn-outline-secondary">
+                <a href="{{ url('/') }}" >
                     Về trang chủ
                 </a>
                 {{-- <a href="{{ route('don-hang.detail', $donHang->MaDonHang) }}" class="btn btn-primary">
