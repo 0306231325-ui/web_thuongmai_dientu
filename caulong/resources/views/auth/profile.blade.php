@@ -19,6 +19,11 @@
 
     <form method="POST" action="{{ route('profile.update') }}">
         @csrf
+        <div class="form-group mb-3">
+            <label>Mã Người Dùng</label>
+            <input type="text" name="MaNguoiDung" class="form-control"
+                   value="{{ auth()->user()->MaNguoiDung }}">
+        </div>
 
         <div class="form-group mb-3">
             <label>Họ tên</label>
@@ -36,6 +41,16 @@
             <label>Số điện thoại</label>
             <input type="text" name="SoDienThoai" class="form-control"
                    value="{{ auth()->user()->SoDienThoai }}">
+        </div>
+        <div class="form-group mb-3">
+            <label>Tên đăng nhập</label>
+            <input type="text" name="TenDangNhap" class="form-control"
+                   value="{{ auth()->user()->TenDangNhap }}">
+        </div>
+        <div class="form-group mb-3">
+            <label>Mật khẩu</label>
+            <input type="text" name="MatKhau" class="form-control"
+                   value="{{ auth()->user()->MatKhau }}">
         </div>
 
         <hr>
