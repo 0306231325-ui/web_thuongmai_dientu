@@ -2,31 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ChiTietDonHang extends Model
 {
-    use HasFactory;
     protected $table = 'ChiTietDonHang';
     public $timestamps = false;
-    public $incrementing = false; 
-    protected $primaryKey = ['MaDonHang', 'MaBienThe']; 
 
     protected $fillable = [
         'MaDonHang',
         'MaBienThe',
         'SoLuong',
-        'DonGia',
-        'ThanhTien'
+        'DonGia'
     ];
 
-    public function donHang()
+    public function bienThe()
     {
-        return $this->belongsTo(DonHang::class, 'MaDonHang', 'MaDonHang');
-    }
-    public function bienTheSanPham()
-    {
-        return $this->belongsTo(BienTheSanPham::class, 'MaBienThe', 'MaBienThe');
+        return $this->belongsTo(BienTheSanPham::class, 'MaBienThe');
     }
 }

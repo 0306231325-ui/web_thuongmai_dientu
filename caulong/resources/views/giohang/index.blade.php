@@ -88,6 +88,7 @@
     </h4>
 
     <div>
+
         <a href="{{ url('/shop') }}" class="btn btn-secondary">
             ← Tiếp tục mua
         </a>
@@ -105,6 +106,7 @@
                 Xóa hết giỏ hàng
             </button>
         </form>
+
     </div>
 </div>
 

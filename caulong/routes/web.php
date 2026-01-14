@@ -10,6 +10,7 @@ use App\Http\Controllers\GioHangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DanhGiaController;
 use App\Http\Controllers\CheckoutController; 
+use App\Http\Controllers\DonHangController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -41,6 +42,7 @@ Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])
     ->name('sanpham.chitiet');
 
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/yeu-thich', [YeuThichController::class, 'index'])
         ->name('yeuthich.index');
@@ -48,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/yeu-thich/{id}', [YeuThichController::class, 'destroy'])
         ->name('yeuthich.delete');
 });
+
+
 
 
 
@@ -76,6 +80,7 @@ Route::post(
 
 
 
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/checkout', [CheckoutController::class, 'index'])
@@ -92,6 +97,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/login', [AuthController::class, 'showLogin'])
     ->name('login');
 
+
+// Auth
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
@@ -100,6 +109,7 @@ Route::get('/register', [AuthController::class, 'showRegister'])
     ->name('register');
 
 Route::post('/register', [AuthController::class, 'register']);
+
 
 
 // Route::middleware('auth')->group(function () {
@@ -128,4 +138,23 @@ Route::get('/admin/comments', function () {
 Route::get('/admin/categories', function () {
     return view('admin.categories');
 })->name('admin.categories');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/tai-khoan', [AuthController::class, 'showProfile'])
+        ->name('profile');
+
+    Route::post('/tai-khoan', [AuthController::class, 'updateProfile'])
+        ->name('profile.update');
+});
+
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
+    Route::get('/don-hang/{id}', [DonHangController::class, 'show'])->name('donhang.show');
+    Route::post('/don-hang/{id}/huy', [DonHangController::class, 'cancel'])->name('donhang.cancel');
+});
 

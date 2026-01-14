@@ -9,14 +9,11 @@
             <h2 class="mb-3 text-success">Đặt hàng thành công!</h2>
             <p class="lead">Cảm ơn bạn đã mua hàng.</p>
             <hr>
-            
             <div class="d-flex justify-content-center gap-3 mt-4">
                 <a href="{{ url('/') }}" >
+
                     Về trang chủ
                 </a>
-                {{-- <a href="{{ route('don-hang.detail', $donHang->MaDonHang) }}" class="btn btn-primary">
-                    Xem chi tiết đơn hàng
-                </a> --}}
             </div>
         </div>
     </div>

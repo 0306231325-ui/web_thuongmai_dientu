@@ -106,7 +106,11 @@ class GioHangController extends Controller
 
         $gioHang = $this->getGioHang();
 
+
         $item = ChiTietGioHang::where('MaGioHang', $gioHang->MaGioHang)
+
+
+
             ->where('MaBienThe', $maBienThe)
             ->first();
 
