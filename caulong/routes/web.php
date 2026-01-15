@@ -138,6 +138,9 @@ Route::get('/admin/comments', function () {
 Route::get('/admin/categories', function () {
     return view('admin.categories');
 })->name('admin.categories');
+//Nam them 14/1
+use App\Http\Controllers\Admin\SanPhamAdminController;
+
 
 Route::middleware('auth')->group(function () {
 
@@ -157,4 +160,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/don-hang/{id}', [DonHangController::class, 'show'])->name('donhang.show');
     Route::post('/don-hang/{id}/huy', [DonHangController::class, 'cancel'])->name('donhang.cancel');
 });
+
+
+Route::get('/admin/products', [SanPhamAdminController::class, 'index'])
+    ->name('admin.products');
 

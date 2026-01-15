@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Slideshow extends Model
 {
-    protected $table = 'Slideshow';
-    protected $primaryKey = 'MaSlide';
+    protected $table = 'slideshow'; 
+
+    protected $fillable = [
+        'TieuDe',
+        'HinhAnh',
+        'HienThi',
+        'ThuTu'
+    ];
+
     public $timestamps = false;
 }
-
-
