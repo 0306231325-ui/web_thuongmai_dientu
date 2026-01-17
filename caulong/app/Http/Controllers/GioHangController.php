@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\GioHang;
 use App\Models\ChiTietGioHang;
+use App\Models\KhuyenMai;
 use App\Models\BienTheSanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class GioHangController extends Controller
 {
@@ -21,12 +23,12 @@ class GioHangController extends Controller
     {
         $gioHang = $this->getGioHang();
 
-        // Dữ liệu hiển thị (có phân trang)
+
         $items = ChiTietGioHang::with('bienTheSanPham.sanPham')
             ->where('MaGioHang', $gioHang->MaGioHang)
             ->paginate(3);
 
-        // Dữ liệu tính tổng (không phân trang)
+
         $allItems = ChiTietGioHang::with('bienTheSanPham')
             ->where('MaGioHang', $gioHang->MaGioHang)
             ->get();
@@ -35,7 +37,21 @@ class GioHangController extends Controller
             $item->SoLuong * ($item->bienTheSanPham->GiaBan ?? 0)
         );
 
-        return view('giohang.index', compact('items', 'total'));
+
+        $myVouchers = collect([]); 
+        
+        if (Auth::check()) {
+            /** @var \App\Models\NguoiDung $user */
+            $user = Auth::user();
+
+            $myVouchers = $user->khuyenMais()
+                ->where('TrangThai', 1)
+                ->where('NgayKetThuc', '>=', Carbon::now())
+                ->wherePivot('DaSuDung', 0)
+                ->get();
+        }
+
+        return view('giohang.index', compact('items', 'total', 'myVouchers'));
     }
 
     public function add(Request $request, $maBienThe)
@@ -157,5 +173,66 @@ class GioHangController extends Controller
         return redirect()
             ->route('gio-hang')
             ->with('success', 'Đã xóa tất cả sản phẩm trong giỏ hàng.');
+    }
+
+    public function applyVoucher(Request $request)
+    {
+        $code = $request->input('coupon_code');
+        
+        $voucher = KhuyenMai::where('MaCode', $code)->first();
+
+        if (!$voucher) {
+            return back()->with('error_coupon', 'Mã giảm giá không tồn tại.');
+        }
+
+        if ($voucher->TrangThai == 0 || 
+            Carbon::now()->lt($voucher->NgayBatDau) || 
+            Carbon::now()->gt($voucher->NgayKetThuc)) {
+            return back()->with('error_coupon', 'Mã giảm giá đã hết hạn.');
+        }
+
+        if ($voucher->SoLuongSuDung >= $voucher->SoLuongToiDa) {
+            return back()->with('error_coupon', 'Mã giảm giá đã hết lượt sử dụng.');
+        }
+
+
+        $gioHang = $this->getGioHang();
+        $cartItems = ChiTietGioHang::with('bienTheSanPham')
+            ->where('MaGioHang', $gioHang->MaGioHang)->get();
+            
+        $subTotal = $cartItems->sum(fn ($item) => $item->SoLuong * $item->bienTheSanPham->GiaBan);
+
+        if ($subTotal < $voucher->DonHangToiThieu) {
+            return back()->with('error_coupon', 
+                'Đơn hàng tối thiểu để dùng mã này là ' . number_format($voucher->DonHangToiThieu) . '₫');
+        }
+
+
+        $discountAmount = 0;
+        if ($voucher->PhanTramGiam > 0) {
+            $discountAmount = $subTotal * ($voucher->PhanTramGiam / 100);
+
+            if ($voucher->GiaTriGiamToiDa > 0) {
+                $discountAmount = min($discountAmount, $voucher->GiaTriGiamToiDa);
+            }
+        } else {
+
+            $discountAmount = $voucher->GiaTriGiamToiDa; 
+        }
+
+
+        session()->put('coupon', [
+            'code' => $voucher->MaCode,
+            'discount' => $discountAmount,
+            'id' => $voucher->MaKhuyenMai
+        ]);
+
+        return back()->with('success', 'Áp dụng mã giảm giá thành công!');
+    }
+
+    public function removeVoucher()
+    {
+        session()->forget('coupon');
+        return back()->with('success', 'Đã gỡ bỏ mã giảm giá.');
     }
 }

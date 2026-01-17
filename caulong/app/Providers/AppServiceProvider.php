@@ -18,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
 
-            if (Schema::hasTable('DanhMuc')) {               $danhMucs = DanhMuc::whereNull('DanhMucCha')->get();
+            if (Schema::hasTable('DanhMuc')) {               
+                $danhMucs = DanhMuc::whereNull('DanhMucCha')->get();
             } else {
                 $danhMucs = collect();
             }

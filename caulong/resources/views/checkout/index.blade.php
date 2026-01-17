@@ -2,32 +2,30 @@
 @section('title', 'Thanh toán')
 @section('content')
 <div class="container mt-4">
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <h2 class="mb-4">Thanh toán</h2>
     <form action="{{ route('checkout.process') }}" method="POST">
         @csrf
         <div class="row">
             <div class="col-md-7">
-                
                 <div class="card mb-4 shadow-sm">
-                    <div class="card-header checkout-card-header">
-                        <h5 class="mb-0"> Thông tin giao hàng</h5>
+                    <div class="card-header checkout-card-header bg-white">
+                        <h5 class="mb-0 fw-bold">1. Thông tin giao hàng</h5>
                     </div>
                     <div class="card-body">
                         @if(isset($addresses) && $addresses->count() > 0)
@@ -39,12 +37,12 @@
                                         <option value="{{ $addr->DiaChiChiTiet }}" 
                                                 data-name="{{ $addr->TenNguoiNhan }}" 
                                                 data-phone="{{ $addr->SoDienThoai }}">
-                                            {{ $addr->TenNguoiNhan }} - {{ $addr->SoDienThoai }} ({{ $addr->DiaChiChiTiet }})
+                                            {{ $addr->TenNguoiNhan }} - {{ $addr->SoDienThoai }} ({{ Str::limit($addr->DiaChiChiTiet, 30) }})
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="text-center my-2 text-muted">- Hoặc nhập mới -</div>
+                            <div class="text-center my-2 text-muted small">- Hoặc nhập mới bên dưới -</div>
                         @endif
 
                         <div class="row g-3">
@@ -62,15 +60,15 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Ghi chú đơn hàng (Tùy chọn)</label>
-                                <textarea class="form-control" name="GhiChu" rows="1"></textarea>
+                                <textarea class="form-control" name="GhiChu" rows="1" placeholder="Ví dụ: Giao giờ hành chính..."></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="card mb-4 shadow-sm">
-                    <div class="card-header checkout-card-header">
-                        <h5 class="mb-0">Phương thức thanh toán</h5>
+                    <div class="card-header checkout-card-header bg-white">
+                        <h5 class="mb-0 fw-bold">2. Phương thức thanh toán</h5>
                     </div>
                     <div class="card-body">
                         @foreach($paymentMethods as $method)
@@ -89,9 +87,9 @@
             </div>
 
             <div class="col-md-5">
-                <div class="card shadow-sm">
-                    <div class="card-header checkout-card-header">
-                        <h5 class="mb-0">Đơn hàng của bạn ({{ $cartItems->count() }} sản phẩm)</h5>
+                <div class="card shadow-sm border-primary">
+                    <div class="card-header checkout-card-header bg-primary text-white">
+                        <h5 class="mb-0">Đơn hàng của bạn ({{ $cartItems->count() }})</h5>
                     </div>
                     <div class="card-body p-0">
                         <ul class="list-group list-group-flush">
@@ -103,14 +101,18 @@
                                         @endphp
 
                                         <img src="{{ asset('img/hinhanhsanpham/' . $hinhAnh) }}"
-                                             class="checkout-product-img me-2"
+                                             class="checkout-product-img me-2 border rounded"
+                                             style="width: 50px; height: 50px; object-fit: cover;"
                                              alt="Ảnh sản phẩm">
                                         
                                         <div>
-                                            <div class="checkout-product-name">
-                                                {{ $item->bienTheSanPham->sanPham->TenSanPham }}
+                                            <div class="checkout-product-name fw-bold small">
+                                                {{ Str::limit($item->bienTheSanPham->sanPham->TenSanPham, 25) }}
                                             </div>
-                                            <small class="text-muted">{{ $item->bienTheSanPham->TenBienThe }} x {{ $item->SoLuong }}</small>
+                                            <small class="text-muted">
+                                                {{ $item->bienTheSanPham->TenBienThe }} <br> 
+                                                SL: x{{ $item->SoLuong }}
+                                            </small>
                                         </div>
                                     </div>
                                     <span class="text-primary fw-bold">
@@ -125,17 +127,26 @@
                             <span>Tạm tính:</span>
                             <span>{{ number_format($total) }}₫</span>
                         </div>
+                        @if(session('coupon'))
+                            <div class="d-flex justify-content-between mb-2 text-success">
+                                <span>
+                                     Voucher ({{ session('coupon')['code'] }}):
+                                </span>
+                                <span>-{{ number_format($discount ?? 0) }}₫</span>
+                            </div>
+                        @endif
                         <div class="d-flex justify-content-between mb-2">
                             <span>Phí vận chuyển:</span>
                             <span class="text-success">Miễn phí</span> 
                         </div>
+                        
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Tổng cộng:</h5>
-                            <h4 class="checkout-total-price">{{ number_format($total) }}₫</h4>
+                            <h5 class="mb-0 fw-bold">Tổng thanh toán:</h5>
+                            <h4 class="checkout-total-price text-danger fw-bold">{{ number_format($finalTotal ?? $total) }}₫</h4>
                         </div>
                         
-                        <button type="submit" class="btn btn-success w-100 btn-lg mt-3" onclick="return confirm('Xác nhận đặt hàng?')">
+                        <button type="submit" class="btn btn-success w-100 btn-lg mt-3 fw-bold" onclick="return confirm('Xác nhận đặt hàng?')">
                             ĐẶT HÀNG NGAY
                         </button>
                     </div>
@@ -144,5 +155,7 @@
         </div>
     </form>
 </div>
-@endsection
 
+
+
+@endsection

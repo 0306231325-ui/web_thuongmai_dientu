@@ -11,6 +11,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DanhGiaController;
 use App\Http\Controllers\CheckoutController; 
 use App\Http\Controllers\DonHangController;
+use App\Http\Controllers\KhuyenMaiController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -67,10 +68,25 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/gio-hang/remove/{maBienThe}', [GioHangController::class, 'remove'])
         ->name('gio-hang.remove');
+
+    Route::post('/gio-hang/voucher', [GioHangController::class, 'applyVoucher'])
+        ->name('gio-hang.apply-voucher'); 
+
+    Route::delete('/gio-hang/voucher', [GioHangController::class, 'removeVoucher'])
+        ->name('gio-hang.remove-voucher');
 });
 
 
 
+
+
+
+Route::get('/ma-giam-gia', [KhuyenMaiController::class, 'index'])
+    ->name('khuyenmai.index');
+
+
+Route::post('/ajax/luu-voucher', [KhuyenMaiController::class, 'luuMa'])
+    ->name('voucher.save');
 
 
 Route::post(
@@ -110,12 +126,6 @@ Route::get('/register', [AuthController::class, 'showRegister'])
 
 Route::post('/register', [AuthController::class, 'register']);
 
-
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/admin', fn () => 'Trang Admin')
-//         ->name('admin.dashboard');
-// });
 
 
 //Qua Trang admin cua Nam

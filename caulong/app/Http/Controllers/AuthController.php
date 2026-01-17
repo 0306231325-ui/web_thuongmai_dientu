@@ -46,7 +46,7 @@ class AuthController extends Controller
             $roleIds = $user->vaiTros->pluck('MaVaiTro')->toArray();
 
             if (in_array(1, $roleIds)) { // 1 → QuanTriVien
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.index');
             }
 
             if (in_array(3, $roleIds)) { // 3 → KhachHang

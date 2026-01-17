@@ -38,7 +38,7 @@
 
                         <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
 
-                        <a href="{{ route('admin.index') }}" class="nav-item nav-link">ADMIN</a>
+                        
 
                     </div>
 
