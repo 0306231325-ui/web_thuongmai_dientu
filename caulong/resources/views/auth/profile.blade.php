@@ -47,6 +47,7 @@
             <input type="text" name="TenDangNhap" class="form-control"
                    value="{{ auth()->user()->TenDangNhap }}">
         </div>
+        
         <div class="form-group mb-3">
             <label>Mật khẩu</label>
             <input type="text" name="MatKhau" class="form-control"

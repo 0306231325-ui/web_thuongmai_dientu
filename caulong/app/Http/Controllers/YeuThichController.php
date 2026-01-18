@@ -7,21 +7,26 @@ use Illuminate\Support\Facades\Auth;
 
 class YeuThichController extends Controller
 {
+    // Danh sách sản phẩm yêu thích
     public function index()
     {
-        $userId = Auth::id(); 
-
         $wishlists = YeuThich::with('sanPham')
-            ->where('MaNguoiDung', $userId)
+            ->where('MaNguoiDung', Auth::id())
             ->orderByDesc('NgayThem')
             ->get();
 
         return view('yeuthich.index', compact('wishlists'));
     }
 
+    // Xoá khỏi yêu thích
     public function destroy($id)
     {
-        YeuThich::where('MaYeuThich', $id)->delete();
-        return back()->with('success', 'Đã xoá khỏi yêu thích');
+        YeuThich::where('MaYeuThich', $id)
+            ->where('MaNguoiDung', Auth::id())
+            ->delete();
+
+        return redirect()
+            ->route('yeuthich.index')
+            ->with('success', 'Đã xoá khỏi danh sách yêu thích');
     }
 }

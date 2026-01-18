@@ -47,8 +47,8 @@
 
         <div class="dropdown-menu dropdown-menu-right">
             @guest
-                <a class="dropdown-item" href="{{ route('login') }}">
-                    Sign in
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#loginModal">
+                Sign in
                 </a>
                 {{-- Nếu không dùng register, có thể xóa --}}
                 <a class="dropdown-item" href="{{ route('register') }}">

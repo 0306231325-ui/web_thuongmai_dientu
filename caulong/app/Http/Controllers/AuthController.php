@@ -45,14 +45,16 @@ class AuthController extends Controller
 
             $roleIds = $user->vaiTros->pluck('MaVaiTro')->toArray();
 
-            if (in_array(1, $roleIds)) { // 1 → QuanTriVien
-                return redirect()->route('admin.dashboard');
-            }
+            if (in_array(1, $roleIds)) {
+            return redirect()
+            ->route('admin.dashboard')
+            ->with('success', 'Đăng nhập quản trị viên thành công');
+        }
 
-            if (in_array(3, $roleIds)) { // 3 → KhachHang
-                return redirect('/'); // khách hàng → trang chính
-            }
-
+        if (in_array(3, $roleIds)) {
+            return redirect('/')
+                ->with('success', 'Đăng nhập thành công ');
+        }
             Auth::logout();
             return abort(403, 'Bạn không có quyền truy cập');
         }

@@ -21,12 +21,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Liên hệ
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
 
-// Yêu thích
+// Danh sách yêu thích
 Route::get('/yeu-thich', [YeuThichController::class, 'index'])
-    ->name('yeuthich.index');
+    ->name('yeuthich.index')
+    ->middleware('auth');
 
 Route::delete('/yeu-thich/{id}', [YeuThichController::class, 'destroy'])
-    ->name('yeuthich.delete');
+    ->name('yeuthich.destroy')
+    ->middleware('auth');
 
 // Khuyến mãi Tết
 Route::get('/khuyen-mai/tet-2026', function () {
@@ -40,8 +42,11 @@ Route::get('/shop/danh-muc/{slug}', [ShopController::class, 'index'])->name('sho
 // Sản phẩm
 Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])
     ->name('sanpham.chitiet');
+
+Route::get('/san-pham/{id}', [SanPhamController::class, 'show'])
+    ->name('sanpham.show');
     
-// Giỏ hàng (cần đăng nhập)
+// Giỏ hàng
 Route::middleware('auth')->group(function () {
     Route::get('/gio-hang', [GioHangController::class, 'index'])
         ->name('gio-hang');
@@ -55,16 +60,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/gio-hang/remove/{maBienThe}', [GioHangController::class, 'remove'])
         ->name('gio-hang.remove');
 });
-
-
-
-
-
-Route::post(
-    '/ajax/gio-hang/add/{maBienThe}',
-    [GioHangController::class, 'addAjax']
-)->name('giohang.add.ajax');
-
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -86,6 +81,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/tai-khoan', [AuthController::class, 'updateProfile'])
         ->name('profile.update');
+    
 
 });
 
@@ -95,4 +91,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
     Route::get('/don-hang/{id}', [DonHangController::class, 'show'])->name('donhang.show');
     Route::post('/don-hang/{id}/huy', [DonHangController::class, 'cancel'])->name('donhang.cancel');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/don-hang', [DonHangController::class, 'index'])
+        ->name('donhang.index');
+
+    Route::get('/don-hang/{id}', [DonHangController::class, 'show'])
+        ->name('donhang.show');
+
+    Route::put('/don-hang/{id}/huy', [DonHangController::class, 'cancel'])
+        ->name('donhang.cancel');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/yeu-thich', [YeuThichController::class, 'index'])
+        ->name('yeuthich.index');
+
+    Route::delete('/yeu-thich/{id}', [YeuThichController::class, 'destroy'])
+        ->name('yeuthich.destroy');
 });

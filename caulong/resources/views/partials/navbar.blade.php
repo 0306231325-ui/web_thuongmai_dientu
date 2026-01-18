@@ -35,31 +35,66 @@
                         <a href="{{ route('shop.index') }}" class="nav-item nav-link">Sản phẩm</a>
                         <a href="{{ route('contact') }}" class="nav-item nav-link">Liên hệ</a>
                         <a href="#" class="nav-item nav-link">Hỗ trợ</a>
-                        <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
+                          {{-- YÊU THÍCH --}}
+    @guest
+        <a href="#" class="nav-item nav-link open-login">
+            Yêu Thích
+        </a>
+    @else
+        <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">
+            Yêu Thích
+        </a>
+    @endguest
                     </div>
 
                     <!-- GIỎ HÀNG -->
-                    <div class="navbar-nav ml-auto">
-                        <a href="{{ route('gio-hang') }}"
-                           class="nav-item nav-link d-flex align-items-center position-relative"
-                           style="font-size:18px;">
+<div class="navbar-nav ml-auto">
 
-                            <i class="fas fa-shopping-cart"></i>
+    @guest
+        <a href="#"
+           class="nav-item nav-link d-flex align-items-center position-relative open-login"
+           data-redirect="{{ route('gio-hang') }}"
+           style="font-size:18px;">
 
-                            @if(!empty($cartCount) && $cartCount > 0)
-                                <span class="badge badge-danger position-absolute"
-                                      style="
-                                        top:0;
-                                        right:-10px;
-                                        font-size:11px;
-                                        padding:4px 6px;
-                                        border-radius:50%;
-                                      ">
-                                    {{ $cartCount }}
-                                </span>
-                            @endif
-                        </a>
-                    </div>
+            <i class="fas fa-shopping-cart"></i>
+
+            @if(!empty($cartCount) && $cartCount > 0)
+                <span class="badge badge-danger position-absolute"
+                      style="
+                        top:0;
+                        right:-10px;
+                        font-size:11px;
+                        padding:4px 6px;
+                        border-radius:50%;
+                      ">
+                    {{ $cartCount }}
+                </span>
+            @endif
+        </a>
+    @else
+        <a href="{{ route('gio-hang') }}"
+           class="nav-item nav-link d-flex align-items-center position-relative"
+           style="font-size:18px;">
+
+            <i class="fas fa-shopping-cart"></i>
+
+            @if(!empty($cartCount) && $cartCount > 0)
+                <span class="badge badge-danger position-absolute"
+                      style="
+                        top:0;
+                        right:-10px;
+                        font-size:11px;
+                        padding:4px 6px;
+                        border-radius:50%;
+                      ">
+                    {{ $cartCount }}
+                </span>
+            @endif
+        </a>
+    @endguest
+
+</div>
+
 
                 </div>
             </nav>
