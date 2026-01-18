@@ -7,7 +7,6 @@
         @foreach($products as $sp)
             <div class="col-lg-3 col-md-4 col-sm-6 pb-4">
                 <div class="product-item bg-light h-100 d-flex flex-column">
-
                     <div class="product-img-fixed">
                         <img
                             src="{{ $sp->anh_hien_thi }}"
@@ -15,14 +14,17 @@
                         >
 
                         <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href="{{ route('sanpham.chitiet', $sp->Slug) }}">
+                            <a class="btn btn-outline-dark btn-square"
+                               href="{{ route('sanpham.chitiet', $sp->Slug) }}">
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
+
                             <a class="btn btn-outline-dark btn-square" href="#">
                                 <i class="far fa-heart"></i>
                             </a>
-                            <a class="btn btn-outline-dark btn-square" 
-                            href="{{ route('shop.index', ['q' => $sp->TenSanPham]) }}">
+
+                            <a class="btn btn-outline-dark btn-square"
+                               href="{{ route('shop.index', ['q' => $sp->TenSanPham]) }}">
                                 <i class="fa fa-search"></i>
                             </a>
                         </div>
@@ -51,15 +53,13 @@
                                 @for($i = 1; $i <= 5; $i++)
                                     <small class="fa fa-star {{ $i <= floor($sp->diem_trung_binh) ? 'text-primary' : 'text-muted' }} mr-1"></small>
                                 @endfor
-
                                 <small class="ml-1">
                                     ({{ $sp->danhGias->count() }} đánh giá)
                                 </small>
                             </div>
-
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         @endforeach

@@ -17,12 +17,7 @@ class SanPham extends Model
         'MoTaChiTiet',
         'MaDanhMuc',
         'MaThuongHieu',
-        'LuotXem',
-        'TrangThai'
-    ];
-
-    protected $casts = [
-        'TrangThai' => 'boolean',
+        'LuotXem'
     ];
 
     public function danhGias()

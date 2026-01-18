@@ -109,7 +109,7 @@
 
 @forelse($sanPham->danhGias as $dg)
     <div class="border rounded p-2 mb-2">
-        <strong>{{ $dg->nguoiDung->TenNguoiDung ?? 'Người dùng' }}</strong>
+        <strong>{{ $dg->nguoiDung->HoTen ?? 'Người dùng' }}</strong>
         <span class="text-warning ms-2">
             {{ str_repeat('★', $dg->SoSao) }}
         </span>

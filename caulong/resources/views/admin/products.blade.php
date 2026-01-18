@@ -11,23 +11,33 @@
 
 <div class="container mt-4">
 
+    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="font-weight-bold">Quản lý sản phẩm</h4>
+        <h4 class="font-weight-bold mb-0">Quản lý sản phẩm</h4>
 
-        <form method="GET" class="form-inline">
-            <input
-                type="text"
-                name="keyword"
-                value="{{ request('keyword') }}"
-                class="form-control mr-2"
-                placeholder="Tìm sản phẩm..."
-            >
-            <button class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
+        <div class="d-flex align-items-center">
+            <!-- Search -->
+            <form method="GET" class="form-inline mr-2">
+                <input
+                    type="text"
+                    name="keyword"
+                    value="{{ request('keyword') }}"
+                    class="form-control mr-2"
+                    placeholder="Tìm sản phẩm..."
+                >
+                <button class="btn btn-outline-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            <!-- Add button -->
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Thêm sản phẩm
+            </a>
+        </div>
     </div>
 
+    <!-- Table -->
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <table class="table table-bordered table-hover mb-0">
@@ -52,17 +62,17 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-sm btn-warning text-white">
+                            <button class="btn btn-sm btn-warning text-white" title="Sửa">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-sm btn-danger">
+                            <button class="btn btn-sm btn-danger" title="Xóa">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center text-muted">
+                        <td colspan="4" class="text-center text-muted py-4">
                             Chưa có sản phẩm
                         </td>
                     </tr>
@@ -76,3 +86,4 @@
 
 </body>
 </html>
+    
