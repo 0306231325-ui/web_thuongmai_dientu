@@ -85,3 +85,14 @@ Route::delete(
     '/admin/products/{id}',
     [SanPhamAdminController::class, 'destroy']
 )->name('admin.products.destroy');
+
+//binh luan
+Route::get(
+    '/admin/comments',
+    [\App\Http\Controllers\Admin\CommentAdminController::class, 'index']
+)->name('admin.comments');
+//xóa bình luận 
+Route::delete(
+    '/admin/comments/{id}',
+    [\App\Http\Controllers\Admin\CommentAdminController::class, 'destroy']
+)->name('admin.comments.destroy');
