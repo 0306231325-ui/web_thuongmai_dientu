@@ -84,9 +84,18 @@
                             <button class="btn btn-sm btn-warning text-white" title="Sửa">
                                 <i class="fas fa-edit"></i>
                             </button>
+                           <form action="{{ route('admin.products.destroy', $sp->MaSanPham) }}"
+                            method="POST"
+                            style="display:inline-block"
+                            onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này không?')">
+                            @csrf
+                            @method('DELETE')
+
                             <button class="btn btn-sm btn-danger" title="Xóa">
                                 <i class="fas fa-trash"></i>
                             </button>
+                        </form>
+
                         </td>
                     </tr>
                 @empty

@@ -79,3 +79,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/products/store', [SanPhamAdminController::class, 'store'])->name('products.store');
     
 });
+//xóa sản phẩm Nam
+
+Route::delete(
+    '/admin/products/{id}',
+    [SanPhamAdminController::class, 'destroy']
+)->name('admin.products.destroy');

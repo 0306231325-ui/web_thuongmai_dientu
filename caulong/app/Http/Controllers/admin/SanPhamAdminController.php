@@ -123,4 +123,33 @@ class SanPhamAdminController extends Controller
                 ->withInput();
         }
     }
+    public function destroy($id)
+{
+    DB::beginTransaction();
+
+    try {
+        // Lấy sản phẩm
+        $sanPham = SanPham::findOrFail($id);
+
+        // Xóa biến thể trước (tránh lỗi FK)
+        BienTheSanPham::where('MaSanPham', $id)->delete();
+
+        // Xóa sản phẩm
+        $sanPham->delete();
+
+        DB::commit();
+
+        return redirect()
+            ->route('admin.products.index')
+            ->with('success', 'Đã xóa sản phẩm thành công');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+
+        return back()->withErrors([
+            'error' => 'Xóa thất bại: ' . $e->getMessage()
+        ]);
+    }
+}
+
 }
