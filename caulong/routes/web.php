@@ -82,4 +82,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/products/store', [SanPhamAdminController::class, 'store'])->name('products.store');
     
 });
+
 Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
+
+//xóa sản phẩm Nam
+
+Route::delete(
+    '/admin/products/{id}',
+    [SanPhamAdminController::class, 'destroy']
+)->name('admin.products.destroy');
+
+//binh luan
+Route::get(
+    '/admin/comments',
+    [\App\Http\Controllers\Admin\CommentAdminController::class, 'index']
+)->name('admin.comments');
+//xóa bình luận 
+Route::delete(
+    '/admin/comments/{id}',
+    [\App\Http\Controllers\Admin\CommentAdminController::class, 'destroy']
+)->name('admin.comments.destroy');
+
