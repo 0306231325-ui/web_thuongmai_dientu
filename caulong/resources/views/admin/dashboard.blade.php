@@ -156,6 +156,11 @@
             <span>Hỗ trợ khách hàng</span>
         </a>
 
+        <a href="{{ url('/admin/revenue') }}" class="dashboard-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Quản lý doanh thu</span>
+        </a>
+
     </div>
 
 </body>

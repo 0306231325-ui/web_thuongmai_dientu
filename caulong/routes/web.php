@@ -79,3 +79,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/products/store', [SanPhamAdminController::class, 'store'])->name('products.store');
     
 });
+
+
+Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
