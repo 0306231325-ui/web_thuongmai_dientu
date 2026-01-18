@@ -121,5 +121,19 @@ Route::get('/admin/categories', function () {
 //Nam them 14/1
 use App\Http\Controllers\Admin\SanPhamAdminController;
 
-Route::get('/admin/products', [SanPhamAdminController::class, 'index'])
-    ->name('admin.products');
+Route::prefix('admin')->group(function () {
+    Route::get('/products', [SanPhamAdminController::class, 'index'])
+        ->name('admin.products.index');
+
+    Route::get('/products/create', [SanPhamAdminController::class, 'create'])
+        ->name('admin.products.create');
+
+    Route::post('/products/store', [SanPhamAdminController::class, 'store'])
+        ->name('admin.products.store');
+});
+
+use App\Http\Controllers\Admin\AdminController;
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+});
