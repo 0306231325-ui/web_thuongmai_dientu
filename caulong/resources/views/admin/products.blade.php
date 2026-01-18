@@ -43,24 +43,43 @@
             <table class="table table-bordered table-hover mb-0">
                 <thead class="thead-light">
                     <tr>
-                        <th width="50">#</th>
+                        <th width="60">#</th>
                         <th>Tên sản phẩm</th>
+                        <th width="120">Giá bán</th>
+                        <th width="120">Số lượng</th>
                         <th width="120">Trạng thái</th>
-                        <th width="180" class="text-center">Thao tác</th>
+                        <th width="160" class="text-center">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                 @forelse ($sanPhams as $index => $sp)
                     <tr>
+                        <!-- STT -->
                         <td>{{ $index + 1 }}</td>
+
+                        <!-- TÊN -->
                         <td>{{ $sp->TenSanPham }}</td>
+
+                        <!-- GIÁ -->
                         <td>
-                            @if ($sp->TrangThai)
+                            {{ number_format(optional($sp->bienThes->first())->GiaBan) }} đ
+                        </td>
+
+                        <!-- SỐ LƯỢNG -->
+                        <td>
+                            {{ optional($sp->bienThes->first())->SoLuongTon }}
+                        </td>
+
+                        <!-- TRẠNG THÁI -->
+                        <td>
+                            @if ($sp->TrangThai ?? true)
                                 <span class="badge badge-success">Đang bán</span>
                             @else
                                 <span class="badge badge-secondary">Ẩn</span>
                             @endif
                         </td>
+
+                        <!-- THAO TÁC -->
                         <td class="text-center">
                             <button class="btn btn-sm btn-warning text-white" title="Sửa">
                                 <i class="fas fa-edit"></i>
@@ -72,7 +91,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center text-muted py-4">
+                        <td colspan="6" class="text-center text-muted py-4">
                             Chưa có sản phẩm
                         </td>
                     </tr>
@@ -86,4 +105,3 @@
 
 </body>
 </html>
-    
