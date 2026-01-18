@@ -18,28 +18,25 @@ use App\Http\Controllers\Admin\CommentAdminController;
 
 /*
 |--------------------------------------------------------------------------
-| PUBLIC ROUTES
+| PUBLIC
 |--------------------------------------------------------------------------
 */
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
 
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/shop/danh-muc/{slug}', [ShopController::class, 'index'])->name('shop.danhmuc');
-Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])->name('sanpham.chitiet');
-
 Route::get('/khuyen-mai/tet-2026', fn () => view('promotions.tet2026'));
 
-Route::get('/ma-giam-gia', [KhuyenMaiController::class, 'index'])->name('khuyenmai.index');
-Route::post('/ajax/luu-voucher', [KhuyenMaiController::class, 'luuMa'])->name('voucher.save');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/shop/danh-muc/{slug}', [ShopController::class, 'index'])->name('shop.danhmuc');
+
+Route::get('/san-pham/{slug}', [SanPhamController::class, 'show'])
+    ->name('sanpham.chitiet');
 
 /*
 |--------------------------------------------------------------------------
 | AUTH
 |--------------------------------------------------------------------------
 */
-
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -49,18 +46,24 @@ Route::post('/register', [AuthController::class, 'register']);
 
 /*
 |--------------------------------------------------------------------------
-| AUTHENTICATED ROUTES
+| USER (AUTH REQUIRED)
 |--------------------------------------------------------------------------
 */
-
 Route::middleware('auth')->group(function () {
 
-    // YÊU THÍCH
-    Route::get('/yeu-thich', [YeuThichController::class, 'index'])->name('yeuthich.index');
-    Route::delete('/yeu-thich/{id}', [YeuThichController::class, 'destroy'])->name('yeuthich.destroy');
-    Route::get('/yeu-thich/them/{maSanPham}', [YeuThichController::class, 'store'])->name('yeuthich.store');
+    // Tài khoản
+    Route::get('/tai-khoan', [AuthController::class, 'showProfile'])->name('profile');
+    Route::post('/tai-khoan', [AuthController::class, 'updateProfile'])->name('profile.update');
 
-    // GIỎ HÀNG
+    // Yêu thích
+    Route::get('/yeu-thich', [YeuThichController::class, 'index'])->name('yeuthich.index');
+    Route::get('/yeu-thich/them/{maSanPham}', [YeuThichController::class, 'store'])->name('yeuthich.store');
+    Route::delete('/yeu-thich/{id}', [YeuThichController::class, 'destroy'])->name('yeuthich.destroy');
+
+    // Đánh giá
+    Route::post('/danh-gia', [DanhGiaController::class, 'store'])->name('danhgia.store');
+
+    // Giỏ hàng
     Route::get('/gio-hang', [GioHangController::class, 'index'])->name('gio-hang');
     Route::post('/gio-hang/add/{maBienThe}', [GioHangController::class, 'add'])->name('gio-hang.add');
     Route::post('/gio-hang/update/{maBienThe}', [GioHangController::class, 'update'])->name('gio-hang.update');
@@ -72,19 +75,12 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/ajax/gio-hang/add/{maBienThe}', [GioHangController::class, 'addAjax'])->name('giohang.add.ajax');
 
-    // ĐÁNH GIÁ
-    Route::post('/danh-gia', [DanhGiaController::class, 'store'])->name('danhgia.store');
-
-    // CHECKOUT
+    // Checkout
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
 
-    // TÀI KHOẢN
-    Route::get('/tai-khoan', [AuthController::class, 'showProfile'])->name('profile');
-    Route::post('/tai-khoan', [AuthController::class, 'updateProfile'])->name('profile.update');
-
-    // ĐƠN HÀNG
+    // Đơn hàng
     Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
     Route::get('/don-hang/{id}', [DonHangController::class, 'show'])->name('donhang.show');
     Route::post('/don-hang/{id}/huy', [DonHangController::class, 'cancel'])->name('donhang.cancel');
@@ -92,24 +88,29 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| KHUYẾN MÃI
+|--------------------------------------------------------------------------
+*/
+Route::get('/ma-giam-gia', [KhuyenMaiController::class, 'index'])->name('khuyenmai.index');
+Route::post('/ajax/luu-voucher', [KhuyenMaiController::class, 'luuMa'])->name('voucher.save');
+
+/*
+|--------------------------------------------------------------------------
 | ADMIN
 |--------------------------------------------------------------------------
 */
-
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::get('/revenue', [AdminController::class, 'revenue'])->name('revenue');
 
+    // Sản phẩm
     Route::get('/products', [SanPhamAdminController::class, 'index'])->name('products.index');
     Route::get('/products/create', [SanPhamAdminController::class, 'create'])->name('products.create');
     Route::post('/products/store', [SanPhamAdminController::class, 'store'])->name('products.store');
     Route::delete('/products/{id}', [SanPhamAdminController::class, 'destroy'])->name('products.destroy');
 
-    Route::get('/orders', fn () => view('admin.orders'))->name('orders');
-    Route::get('/categories', fn () => view('admin.categories'))->name('categories');
-
-    Route::get('/comments', [CommentAdminController::class, 'index'])->name('comments');
+    // Bình luận
+    Route::get('/comments', [CommentAdminController::class, 'index'])->name('comments.index');
     Route::delete('/comments/{id}', [CommentAdminController::class, 'destroy'])->name('comments.destroy');
-
-    Route::get('/revenue', [AdminController::class, 'revenue'])->name('revenue');
 });
