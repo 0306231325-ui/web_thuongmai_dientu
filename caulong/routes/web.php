@@ -12,11 +12,8 @@ use App\Http\Controllers\DanhGiaController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\KhuyenMaiController;
-
 use App\Http\Controllers\Admin\SanPhamAdminController;
 use App\Http\Controllers\Admin\AdminController;
-
-
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
@@ -42,6 +39,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/yeu-thich', [YeuThichController::class, 'index'])->name('yeuthich.index');
     Route::delete('/yeu-thich/{id}', [YeuThichController::class, 'destroy'])->name('yeuthich.delete');
+    // web.php
+Route::get('/yeu-thich/them/{maSanPham}',
+    [YeuThichController::class, 'store']
+)->middleware('auth')
+ ->name('yeuthich.store');
+
 
     Route::get('/gio-hang', [GioHangController::class, 'index'])->name('gio-hang');
     Route::delete('gio-hang/clear', [GioHangController::class, 'clear'])->name('gio-hang.clear');
@@ -79,6 +82,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/products/store', [SanPhamAdminController::class, 'store'])->name('products.store');
     
 });
-
-
 Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');

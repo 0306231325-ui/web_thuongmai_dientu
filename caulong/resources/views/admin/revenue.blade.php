@@ -73,8 +73,7 @@
                     </div>
                 </div>
                 <div class="alert alert-info mb-0" style="font-size: 13px;">
-                    <i class="fas fa-info-circle"></i> 
-                    <b>Lưu ý:</b> Đơn Online được tính ngay vào doanh thu. Đơn COD chỉ được tính khi giao thành công.
+                    Lưu ý: Đơn Online được tính ngay vào doanh thu. Đơn COD chỉ được tính khi giao thành công.
                 </div>
             </div>
             <div class="modal-footer p-1">

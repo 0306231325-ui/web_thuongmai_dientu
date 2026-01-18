@@ -3,6 +3,16 @@
         <span class="bg-secondary pr-3">Sản Phẩm Mới Nhất</span>
     </h2>
 
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mx-xl-5" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+@endif
+
+
     <div class="row px-xl-5">
         @foreach($products as $sp)
             <div class="col-lg-3 col-md-4 col-sm-6 pb-4">
@@ -19,9 +29,10 @@
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
 
-                            <a class="btn btn-outline-dark btn-square" href="#">
-                                <i class="far fa-heart"></i>
-                            </a>
+                            <a class="btn btn-outline-dark btn-square"
+                            href="{{ route('yeuthich.store', $sp->MaSanPham) }}">
+                            <i class="far fa-heart"></i></a>
+
 
                             <a class="btn btn-outline-dark btn-square"
                                href="{{ route('shop.index', ['q' => $sp->TenSanPham]) }}">

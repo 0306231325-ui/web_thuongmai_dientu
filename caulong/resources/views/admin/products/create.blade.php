@@ -46,7 +46,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('admin.products.store') }}" method="POST">
+                    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         {{-- Tên sản phẩm --}}
@@ -58,6 +58,16 @@
                                    placeholder="Nhập tên sản phẩm"
                                    value="{{ old('TenSanPham') }}"
                                    required>
+                        </div>
+
+                        {{-- Slug (tùy chọn – có thể tự sinh) --}}
+                        <div class="mb-3">
+                            <label class="form-label">Slug</label>
+                            <input type="text"
+                                   name="Slug"
+                                   class="form-control"
+                                   placeholder="vd: vot-cau-long-yonex"
+                                   value="{{ old('Slug') }}">
                         </div>
 
                         {{-- Mô tả --}}
@@ -99,7 +109,53 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between mt-4">
+                        <hr>
+
+                        <h6 class="mb-3">📦 Thông tin biến thể</h6>
+
+                        {{-- Tên biến thể (KHÔNG bắt buộc) --}}
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Tên biến thể <span class="text-muted">(không bắt buộc)</span>
+                            </label>
+                            <input type="text"
+                                   name="TenBienThe"
+                                   class="form-control"
+                                   placeholder="VD: Size M, Size L (bỏ trống = Mặc định)"
+                                   value="{{ old('TenBienThe') }}">
+                        </div>
+
+                        <div class="row">
+                            {{-- Giá bán --}}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Giá bán</label>
+                                <input type="number"
+                                       name="GiaBan"
+                                       class="form-control"
+                                       placeholder="Nhập giá bán"
+                                       value="{{ old('GiaBan') }}"
+                                       required>
+                            </div>
+
+                            {{-- Số lượng --}}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Số lượng</label>
+                                <input type="number"
+                                       name="SoLuongTon"
+                                       class="form-control"
+                                       placeholder="Nhập số lượng"
+                                       value="{{ old('SoLuongTon') }}"
+                                       required>
+                            </div>
+                        </div>
+
+                        {{-- Hình ảnh --}}
+                        <div class="mb-4">
+                            <label class="form-label">Hình ảnh sản phẩm</label>
+                            <input type="file" name="HinhAnh" class="form-control">
+                        </div>
+
+                        <div class="d-flex justify-content-between">
                             <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">
                                 ⬅ Quay lại
                             </a>

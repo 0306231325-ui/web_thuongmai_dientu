@@ -78,7 +78,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* Màu sắc */
+
 .card-revenue {
     border-bottom: 4px solid #28a745;
 }
@@ -91,7 +91,7 @@ body {
     border-bottom: 4px solid #dc3545;
 }
 
-/* Card chờ xử lý */
+
 .card-waiting {
     border-bottom: 4px solid #ffc107;
     cursor: pointer;
