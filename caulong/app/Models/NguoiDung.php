@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\DiaChiNguoiDung;
+use App\Models\KhuyenMai;
 
 class NguoiDung extends Authenticatable
 {
@@ -14,28 +17,31 @@ class NguoiDung extends Authenticatable
     protected $primaryKey = 'MaNguoiDung';
     public $timestamps = false;
 
+
     protected $fillable = [
         'TenDangNhap',
         'MatKhau',
-        'TrangThai'
+        'HoTen',
+        'Email',
+        'SoDienThoai',
+        'AnhDaiDien',
+        'GoogleID',
+        'FacebookID',
+        'TrangThai',
+        'NgayTao'
     ];
 
     protected $hidden = [
-        'MatKhau'
+        'MatKhau',
     ];
 
-    /**
-     * Laravel mặc định lấy cột password
-     * Ta override để dùng MatKhau
-     */
+    
     public function getAuthPassword()
     {
         return $this->MatKhau;
     }
 
-    /**
-     * Quan hệ đánh giá
-     */
+    
     public function danhGias(): HasMany
     {
         return $this->hasMany(
@@ -45,10 +51,8 @@ class NguoiDung extends Authenticatable
         );
     }
 
-    /**
-     * Quan hệ vai trò
-     */
-    public function vaiTros()
+    
+    public function vaiTros(): BelongsToMany 
     {
         return $this->belongsToMany(
             VaiTro::class,
@@ -56,5 +60,27 @@ class NguoiDung extends Authenticatable
             'MaNguoiDung',
             'MaVaiTro'
         );
+    }
+
+    
+    public function diaChi(): HasMany
+    {
+        return $this->hasMany(
+            DiaChiNguoiDung::class,
+            'MaNguoiDung',
+            'MaNguoiDung'
+        );
+    }
+
+    
+    public function khuyenMais(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            KhuyenMai::class,
+            'NguoiDung_KhuyenMai', 
+            'MaNguoiDung',         
+            'MaKhuyenMai'       
+        )
+        ->withPivot('NgayLuu', 'DaSuDung'); 
     }
 }

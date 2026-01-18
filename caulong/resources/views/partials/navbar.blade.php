@@ -1,7 +1,7 @@
 <div class="container-fluid bg-dark mb-3">
     <div class="row px-xl-5 align-items-center">
 
-        <!-- DANH MỤC -->
+        
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn d-flex align-items-center justify-content-between bg-warning text-dark w-100"
                data-toggle="collapse"
@@ -25,7 +25,7 @@
             </nav>
         </div>
 
-        <!-- MENU PHẢI -->
+        
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-0" style="height:56px;">
                 <div class="collapse navbar-collapse show align-items-center">
@@ -35,6 +35,7 @@
                         <a href="{{ route('shop.index') }}" class="nav-item nav-link">Sản phẩm</a>
                         <a href="{{ route('contact') }}" class="nav-item nav-link">Liên hệ</a>
                         <a href="#" class="nav-item nav-link">Hỗ trợ</a>
+<<<<<<< HEAD
                           {{-- YÊU THÍCH --}}
     @guest
         <a href="#" class="nav-item nav-link open-login">
@@ -49,6 +50,20 @@
 
                     <!-- GIỎ HÀNG -->
 <div class="navbar-nav ml-auto">
+=======
+
+                        <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
+
+                        
+
+                    </div>
+
+            
+                    <div class="navbar-nav ml-auto">
+                        <a href="{{ route('gio-hang') }}"
+                           class="nav-item nav-link d-flex align-items-center position-relative"
+                           style="font-size:18px;">
+>>>>>>> 2a1e3095e7c895fb0fd2933d278c5491321b1794
 
     @guest
         <a href="#"

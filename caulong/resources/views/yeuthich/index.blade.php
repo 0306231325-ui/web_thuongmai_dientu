@@ -22,12 +22,19 @@
                                 {{ number_format($yt->sanPham->bienThes->min('GiaBan') ?? 0) }}đ
                             </p>
 
+
                             <a href="{{ route('sanpham.show', $yt->sanPham->Slug) }}"
                                class="btn btn-warning">
                                 Xem sản phẩm
                             </a>
 
                             <form action="{{ route('yeuthich.destroy', $yt->MaYeuThich) }}"
+
+                            <a href="{{ route('sanpham.chitiet', $yt->sanPham->Slug) }}"
+                            class="btn btn-warning">Xem sản phẩm</a>
+
+                            <form action="{{ route('yeuthich.delete', $yt->MaYeuThich) }}"
+
                                   method="POST"
                                   class="d-inline">
                                 @csrf

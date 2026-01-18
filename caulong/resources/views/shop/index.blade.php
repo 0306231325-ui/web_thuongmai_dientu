@@ -3,9 +3,19 @@
 @section('title', 'Shop Cầu Lông')
 
 @section('content')
+
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mx-4 mt-3" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+@endif
 <div class="container-fluid">
     <div class="row px-xl-5">
 
+    
         
         <div class="col-lg-3 col-md-4">
 
@@ -16,10 +26,6 @@
             </div>
 
             <h5 class="mb-4">Bộ lọc</h5>
-
-
-            
-
             <form method="GET">
                 <div class="form-group mb-3">
                     <label>Thương hiệu</label>
@@ -63,6 +69,8 @@
             </form>
         </div>
 
+
+        
         <div class="col-lg-9 col-md-8">
             
            
@@ -89,6 +97,12 @@
                                        href="{{ route('sanpham.chitiet', $sp->Slug) }}">
                                         <i class="fa fa-shopping-cart"></i>
                                     </a>
+
+                                    <a class="btn btn-outline-dark btn-square"
+                                    href="{{ route('yeuthich.store', $sp->MaSanPham) }}">
+                                    <i class="far fa-heart"></i>
+                                </a>
+
                                     <a class="btn btn-outline-dark btn-square"
                                        href="{{ route('sanpham.chitiet', $sp->Slug) }}">
                                         <i class="fa fa-search"></i>

@@ -13,11 +13,21 @@ class ChiTietDonHang extends Model
         'MaDonHang',
         'MaBienThe',
         'SoLuong',
-        'DonGia'
+        'DonGia',
+        'ThanhTien',
     ];
 
     public function bienThe()
     {
         return $this->belongsTo(BienTheSanPham::class, 'MaBienThe');
+    }
+
+    public function bienTheSanPham()
+    {
+        return $this->belongsTo(
+            BienTheSanPham::class,
+            'MaBienThe',
+            'MaBienThe'
+        );
     }
 }

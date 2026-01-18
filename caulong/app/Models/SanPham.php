@@ -34,9 +34,9 @@ class SanPham extends Model
     }
 
     public function bienThes()
-{
+    {
     return $this->hasMany(BienTheSanPham::class, 'MaSanPham', 'MaSanPham');
-}
+    }
 
 public function danhMuc()
     {

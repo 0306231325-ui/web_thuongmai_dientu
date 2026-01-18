@@ -52,7 +52,7 @@
                 <div class="offer-text">
                     <h6>Săn thẻ giảm giá lên tới 40%</h6>
                     <h3>Thẻ Giảm Giá</h3>
-                    <a href="#" class="btn btn-primary">Xem chi tiết</a>
+                    <a href="{{ route('khuyenmai.index') }}" class="btn btn-primary">Xem chi tiết</a>
                 </div>
             </div>
 

@@ -18,13 +18,12 @@ class GioHang extends Model
         'NgayCapNhat',
     ];
 
-    // Một giỏ hàng có nhiều chi tiết
+    
     public function chiTiet()
     {
         return $this->hasMany(ChiTietGioHang::class, 'MaGioHang', 'MaGioHang');
     }
 
-    // Liên kết với người dùng
     public function nguoiDung()
     {
         return $this->belongsTo(NguoiDung::class, 'MaNguoiDung', 'MaNguoiDung');

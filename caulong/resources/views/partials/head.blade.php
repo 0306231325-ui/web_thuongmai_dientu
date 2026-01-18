@@ -19,6 +19,9 @@
 <link rel="stylesheet" href="{{ asset('css/shop.css') }}">
 <link rel="stylesheet" href="{{ asset('css/product.css') }}">
 <link rel="stylesheet" href="{{ asset('css/product-detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
+
+
 
 
 

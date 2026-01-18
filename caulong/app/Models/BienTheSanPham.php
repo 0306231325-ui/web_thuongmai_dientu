@@ -16,7 +16,6 @@ class BienTheSanPham extends Model
         'TenBienThe',
         'GiaBan',
         'SoLuongTon',
-        'HinhAnh'
     ];
 
     public function sanPham()

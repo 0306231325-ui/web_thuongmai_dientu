@@ -20,6 +20,7 @@ class ChiTietGioHang extends Model
         'MaGioHang',
         'MaBienThe',
         'SoLuong',
+        
     ];
 
   

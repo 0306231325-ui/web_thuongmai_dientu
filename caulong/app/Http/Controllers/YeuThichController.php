@@ -29,4 +29,25 @@ class YeuThichController extends Controller
             ->route('yeuthich.index')
             ->with('success', 'Đã xoá khỏi danh sách yêu thích');
     }
+
+    // Thêm vào yêu thích
+    public function store($maSanPham)
+    {
+        $userId = Auth::id();
+
+        $daThich = YeuThich::where('MaNguoiDung', $userId)
+            ->where('MaSanPham', $maSanPham)
+            ->exists();
+
+        if (!$daThich) {
+            YeuThich::create([
+                'MaNguoiDung' => $userId,
+                'MaSanPham'   => $maSanPham,
+                'NgayThem'    => now()
+            ]);
+        }
+
+        return redirect()->back()
+            ->with('success', 'Đã thêm vào yêu thích');
+    }
 }
