@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>@yield('title', 'MultiShop')</title>
+<title>@yield('title', 'Shop Cầu Lông')</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" href="{{ asset('img/favicon.ico') }}">
