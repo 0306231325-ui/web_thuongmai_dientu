@@ -16,9 +16,8 @@ class SanPhamAdminController extends Controller
     /**
      * DANH SÁCH SẢN PHẨM
      */
-    public function index(Request $request)
+   public function index(Request $request)
     {
-        // Load tất cả biến thể, lấy biến thể đầu tiên để hiển thị
         $query = SanPham::with(['bienThes' => function ($q) {
             $q->orderBy('MaBienThe', 'asc');
         }]);
@@ -27,7 +26,10 @@ class SanPhamAdminController extends Controller
             $query->where('TenSanPham', 'like', '%' . $request->keyword . '%');
         }
 
-        $sanPhams = $query->orderByDesc('MaSanPham')->get();
+        $sanPhams = $query
+            ->orderByDesc('MaSanPham')
+            ->paginate(10)
+            ->withQueryString(); 
 
         return view('admin.products', compact('sanPhams'));
     }

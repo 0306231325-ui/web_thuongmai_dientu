@@ -52,61 +52,60 @@
                     </tr>
                 </thead>
                 <tbody>
-                @forelse ($sanPhams as $index => $sp)
-                    <tr>
-                        <!-- STT -->
-                        <td>{{ $index + 1 }}</td>
+                    @forelse ($sanPhams as $index => $sp)
+                        <tr>
+                            <td>{{ $sanPhams->firstItem() + $index }}</td>
 
-                        <!-- TÊN -->
-                        <td>{{ $sp->TenSanPham }}</td>
+                            <td>{{ $sp->TenSanPham }}</td>
 
-                        <!-- GIÁ -->
-                        <td>
-                            {{ number_format(optional($sp->bienThes->first())->GiaBan) }} đ
-                        </td>
+                            <td>
+                                {{ number_format(optional($sp->bienThes->first())->GiaBan) }} đ
+                            </td>
 
-                        <!-- SỐ LƯỢNG -->
-                        <td>
-                            {{ optional($sp->bienThes->first())->SoLuongTon }}
-                        </td>
+                            <td>
+                                {{ optional($sp->bienThes->first())->SoLuongTon }}
+                            </td>
 
-                        <!-- TRẠNG THÁI -->
-                        <td>
-                            @if ($sp->TrangThai ?? true)
-                                <span class="badge badge-success">Đang bán</span>
-                            @else
-                                <span class="badge badge-secondary">Ẩn</span>
-                            @endif
-                        </td>
+                            <td>
+                                @if ($sp->TrangThai ?? true)
+                                    <span class="badge badge-success">Đang bán</span>
+                                @else
+                                    <span class="badge badge-secondary">Ẩn</span>
+                                @endif
+                            </td>
 
-                        <!-- THAO TÁC -->
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-warning text-white" title="Sửa">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                           <form action="{{ route('admin.products.destroy', $sp->MaSanPham) }}"
-                            method="POST"
-                            style="display:inline-block"
-                            onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này không?')">
-                            @csrf
-                            @method('DELETE')
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-warning text-white">
+                                    <i class="fas fa-edit"></i>
+                                </button>
 
-                            <button class="btn btn-sm btn-danger" title="Xóa">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
+                                <form action="{{ route('admin.products.destroy', $sp->MaSanPham) }}"
+                                    method="POST"
+                                    style="display:inline-block"
+                                    onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này không?')">
+                                    @csrf
+                                    @method('DELETE')
 
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-4">
-                            Chưa có sản phẩm
-                        </td>
-                    </tr>
-                @endforelse
-                </tbody>
+                                    <button class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                Chưa có sản phẩm
+                            </td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+
             </table>
+            <div class="p-3">
+                {{ $sanPhams->links() }}
+            </div>
         </div>
     </div>
 

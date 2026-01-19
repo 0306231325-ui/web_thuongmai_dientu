@@ -7,14 +7,16 @@ use App\Models\DanhGia;
 
 class CommentAdminController extends Controller
 {
-    public function index()
+     public function index()
     {
         $comments = DanhGia::with(['sanPham', 'nguoiDung'])
             ->orderByDesc('MaDanhGia')
-            ->get();
+            ->paginate(10);
 
         return view('admin.comments', compact('comments'));
     }
+
+
     public function destroy($id)
         {
             DanhGia::where('MaDanhGia', $id)->delete();

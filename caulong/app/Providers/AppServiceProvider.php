@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use App\Models\DanhMuc;
 use App\Models\ChiTietGioHang;
 use App\Models\GioHang;
@@ -16,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+
+        Paginator::useBootstrap();
+
         View::composer('*', function ($view) {
 
             if (Schema::hasTable('DanhMuc')) {               
