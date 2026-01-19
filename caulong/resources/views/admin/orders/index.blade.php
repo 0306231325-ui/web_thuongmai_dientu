@@ -119,6 +119,9 @@
                 </tbody>
 
             </table>
+            <div class="p-3">
+                {{ $orders->links() }}
+            </div>
         </div>
     </div>
 

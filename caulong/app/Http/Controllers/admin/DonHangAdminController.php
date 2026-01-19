@@ -7,14 +7,11 @@ use App\Models\DonHang;
 
 class DonHangAdminController extends Controller
 {
-    public function index()
-    {
-        $orders = DonHang::with(['nguoiDung'])
-            ->orderByDesc('MaDonHang')
-            ->get();
-
-        return view('admin.orders.index', compact('orders'));
-    }
+   public function index()
+        {
+            $orders = DonHang::orderBy('NgayDat', 'desc')->paginate(10);
+            return view('admin.orders.index', compact('orders'));
+        }
      public function destroy($id)
     {
         $order = DonHang::findOrFail($id);
