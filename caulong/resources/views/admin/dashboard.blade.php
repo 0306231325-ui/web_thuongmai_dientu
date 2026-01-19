@@ -100,63 +100,54 @@
 </head>
 <body>
 
-    <!-- Nút quay về trang chủ -->
-    <div class="top-bar">
-        <a href="{{ url('/') }}" class="btn-home">
-            <i class="fas fa-arrow-left"></i> Quay về trang chủ
-        </a>
-    </div>
+            <!-- Nút quay về trang chủ -->
+            <div class="top-bar">
+                <a href="{{ url('/') }}" class="btn-home">
+                    <i class="fas fa-arrow-left"></i> Quay về trang chủ
+                </a>
+            </div>
 
-    <!-- Tiêu đề -->
-    <div class="admin-title">
-        <i class="fas fa-user-shield"></i>
-        <h2>QUẢN LÝ ADMIN</h2>
-    </div>
+            <!-- Tiêu đề -->
+            <div class="admin-title">
+                <i class="fas fa-user-shield"></i>
+                <h2>QUẢN LÝ ADMIN</h2>
+            </div>
 
-    <!-- Dashboard -->
-    <div class="dashboard">
+            <!-- Dashboard -->
+            <div class="dashboard">
 
-        <a href="{{ url('/admin/products') }}" class="dashboard-item">
-            <i class="fas fa-box"></i>
-            <span>Quản lý sản phẩm</span>
-        </a>
+            <a href="{{ url('/admin/categories') }}" class="dashboard-item">
+                <i class="fas fa-list"></i>
+                <span>Quản lý danh mục sản phẩm</span>
+            </a>
 
-        <a href="{{ url('/admin/categories') }}" class="dashboard-item">
-            <i class="fas fa-list"></i>
-            <span>Loại sản phẩm</span>
-        </a>
+            <a href="{{ url('/admin/products') }}" class="dashboard-item">
+                <i class="fas fa-box"></i>
+                <span>Quản lý sản phẩm</span>
+            </a>
 
-        <a href="{{ url('/admin/orders') }}" class="dashboard-item">
-            <i class="fas fa-file-invoice"></i>
-            <span>Hóa đơn</span>
-        </a>
+            <a href="{{ url('/admin/orders') }}" class="dashboard-item">
+                <i class="fas fa-file-invoice"></i>
+                <span>Quản lý đơn hàng</span>
+            </a>
 
-        <a href="{{ url('/admin/shipping') }}" class="dashboard-item">
-            <i class="fas fa-truck"></i>
-            <span>Vận chuyển</span>
-        </a>
+            <a href="{{ url('/admin/comments') }}" class="dashboard-item">
+                <i class="fas fa-comments"></i>
+                <span>Quản lý bình luận</span>
+            </a>
 
-        <a href="{{ url('/admin/users') }}" class="dashboard-item">
-            <i class="fas fa-users"></i>
-            <span>Quản lý tài khoản</span>
-        </a>
+            <a href="{{ url('/admin/contact') }}" class="dashboard-item">
+                <i class="fas fa-envelope"></i>
+                <span>Quản lý liên hệ</span>
+            </a>
 
-        <a href="{{ url('/admin/comments') }}" class="dashboard-item">
-            <i class="fas fa-comments"></i>
-            <span>Quản lý bình luận</span>
-        </a>
+            <a href="{{ url('/admin/users') }}" class="dashboard-item">
+                <i class="fas fa-users"></i>
+                <span>Quản lý tài khoản</span>
+            </a>
 
-        <a href="{{ url('/admin/contact') }}" class="dashboard-item">
-            <i class="fas fa-envelope"></i>
-            <span>Liên hệ</span>
-        </a>
+        </div>
 
-        <a href="{{ url('/admin/support') }}" class="dashboard-item">
-            <i class="fas fa-headset"></i>
-            <span>Hỗ trợ khách hàng</span>
-        </a>
-
-    </div>
 
 </body>
 </html>
