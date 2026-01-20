@@ -112,8 +112,6 @@
     <hr>
 
 <h5>Đánh giá sản phẩm</h5>
-
-
 <p>
      {{ number_format($sanPham->danhGias->avg('SoSao') ?? 0, 1) }}/5
     ({{ $sanPham->danhGias->count() }} đánh giá)
