@@ -48,7 +48,6 @@ Route::get('/yeu-thich/them/{maSanPham}',
 
     Route::get('/gio-hang', [GioHangController::class, 'index'])->name('gio-hang');
     Route::delete('gio-hang/clear', [GioHangController::class, 'clear'])->name('gio-hang.clear');
-    Route::post('/gio-hang/add/{maBienThe}', [GioHangController::class, 'add'])->name('gio-hang.add');
     Route::post('/gio-hang/update/{maBienThe}', [GioHangController::class, 'update'])->name('gio-hang.update');
     Route::delete('/gio-hang/remove/{maBienThe}', [GioHangController::class, 'remove'])->name('gio-hang.remove');
     Route::post('/gio-hang/voucher', [GioHangController::class, 'applyVoucher'])->name('gio-hang.apply-voucher');
