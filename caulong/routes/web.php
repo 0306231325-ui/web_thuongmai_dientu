@@ -85,10 +85,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
 
 //xóa sản phẩm Nam
-
-
-
-//xóa sản phẩm Nam
 Route::delete(
     '/admin/products/{id}',
     [SanPhamAdminController::class, 'destroy']
@@ -124,3 +120,8 @@ Route::prefix('admin')->group(function () {
         ->name('admin.orders.updateStatus');
 });
 
+Route::get('/admin/products/{id}/edit', [SanPhamAdminController::class, 'edit'])
+    ->name('admin.products.edit');
+
+Route::put('/admin/products/{id}', [SanPhamAdminController::class, 'update'])
+    ->name('admin.products.update');

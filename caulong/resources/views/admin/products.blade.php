@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý sản phẩm</title>
-
+      
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
+            
 <div class="container mt-4">
 
     <!-- Header -->
@@ -31,9 +31,14 @@
             </form>
 
             <!-- Add button -->
-            <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Thêm sản phẩm
-            </a>
+          <a href="{{ route('admin.products.create') }}" class="btn btn-primary" style="margin-right: 10px;">
+            <i class="fas fa-plus"></i> Thêm sản phẩm
+          </a>
+
+          <a href="{{ route('admin.index') }}" class="btn btn-secondary">
+                ← Quay lại
+          </a>
+
         </div>
     </div>
 
@@ -75,9 +80,10 @@
                             </td>
 
                             <td class="text-center">
-                                <button class="btn btn-sm btn-warning text-white">
+                                <a href="{{ route('admin.products.edit', $sp->MaSanPham) }}"
+                                      class="btn btn-sm btn-warning text-white">
                                     <i class="fas fa-edit"></i>
-                                </button>
+                                </a>
 
                                 <form action="{{ route('admin.products.destroy', $sp->MaSanPham) }}"
                                     method="POST"

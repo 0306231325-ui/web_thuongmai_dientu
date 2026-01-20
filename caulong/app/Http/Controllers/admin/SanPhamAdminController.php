@@ -7,21 +7,21 @@ use App\Models\SanPham;
 use App\Models\BienTheSanPham;
 use App\Models\DanhMuc;
 use App\Models\ThuongHieu;
-use App\Models\HinhAnhSanPham; 
+use App\Models\HinhAnhSanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class SanPhamAdminController extends Controller
 {
-    /**
-     * DANH SÁCH SẢN PHẨM
-     */
-   public function index(Request $request)
+
+    public function index(Request $request)
     {
-        $query = SanPham::with(['bienThes' => function ($q) {
-            $q->orderBy('MaBienThe', 'asc');
-        }]);
+        $query = SanPham::with([
+            'bienThes' => function ($q) {
+                $q->orderBy('MaBienThe', 'asc');
+            }
+        ]);
 
         if ($request->filled('keyword')) {
             $query->where('TenSanPham', 'like', '%' . $request->keyword . '%');
@@ -30,45 +30,37 @@ class SanPhamAdminController extends Controller
         $sanPhams = $query
             ->orderByDesc('MaSanPham')
             ->paginate(10)
-            ->withQueryString(); 
+            ->withQueryString();
 
         return view('admin.products', compact('sanPhams'));
     }
 
-    /**
-     * FORM THÊM SẢN PHẨM
-     */
+//Tao san pham
     public function create()
     {
-        $danhMucs = DanhMuc::all();
+        $danhMucs    = DanhMuc::all();
         $thuongHieus = ThuongHieu::all();
 
-        return view('admin.products.create', compact('danhMucs', 'thuongHieus'));
+        return view('admin.products.create', compact(
+            'danhMucs',
+            'thuongHieus'
+        ));
     }
 
-    
+//Them san pham
     public function store(Request $request)
     {
-        $request->validate([
-            'TenSanPham'   => 'required|string|max:200',
-            'MaDanhMuc'    => 'required|integer',
-            'MaThuongHieu' => 'required|integer',
-            'GiaBan'       => 'required|numeric|min:0',
-            'SoLuongTon'   => 'required|integer|min:0',
-            'HinhAnh'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
+        $this->validateProduct($request);
 
         DB::beginTransaction();
 
         try {
-            
-            $slug = Str::slug($request->TenSanPham);
+            $slug  = Str::slug($request->TenSanPham);
             $count = SanPham::where('Slug', 'like', $slug . '%')->count();
             if ($count > 0) {
                 $slug .= '-' . ($count + 1);
             }
 
-           
             $sanPham = SanPham::create([
                 'TenSanPham'   => $request->TenSanPham,
                 'Slug'         => $slug,
@@ -78,23 +70,8 @@ class SanPhamAdminController extends Controller
                 'LuotXem'      => 0,
             ]);
 
-          
-            if ($request->hasFile('HinhAnh')) {
-                $file = $request->file('HinhAnh');
-                $tenFile = time() . '_' . $file->getClientOriginalName();
+            $this->uploadImage($request, $sanPham->MaSanPham);
 
-                
-                $file->move(public_path('img/hinhanhsanpham'), $tenFile);
-
-                
-                HinhAnhSanPham::create([
-                    'MaSanPham'  => $sanPham->MaSanPham, // ID sản phẩm vừa tạo
-                    'DuongDan'   => $tenFile,            // Chỉ lưu tên file (theo logic view cũ của bạn)
-                    'LaAnhChinh' => 1                    // Đặt làm ảnh đại diện (1: True)
-                ]);
-            }
-
-            // 4️⃣ TẠO BIẾN THỂ MẶC ĐỊNH
             BienTheSanPham::create([
                 'MaSanPham'  => $sanPham->MaSanPham,
                 'SKU'        => 'SP' . $sanPham->MaSanPham . '-' . time(),
@@ -111,33 +88,79 @@ class SanPhamAdminController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()
-                ->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()])
-                ->withInput();
+            return back()->withErrors([
+                'error' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ])->withInput();
         }
     }
-    public function destroy($id)
+
+//chinh sua
+    public function edit($id)
     {
+        $sanPham     = SanPham::with(['bienThes', 'hinhAnhs'])->findOrFail($id);
+        $danhMucs    = DanhMuc::all();
+        $thuongHieus = ThuongHieu::all();
+
+        return view('admin.products.edit', compact(
+            'sanPham',
+            'danhMucs',
+            'thuongHieus'
+        ));
+    }
+
+//cap nhat
+    public function update(Request $request, $id)
+    {
+        $this->validateProduct($request);
+
         DB::beginTransaction();
 
         try {
             $sanPham = SanPham::findOrFail($id);
 
-            
-            $hinhAnhs = HinhAnhSanPham::where('MaSanPham', $id)->get();
-            foreach ($hinhAnhs as $anh) {
-                $duongDanFile = public_path('img/hinhanhsanpham/' . $anh->DuongDan);
-                if (file_exists($duongDanFile)) {
-                    unlink($duongDanFile); 
-                }
+
+            $sanPham->update([
+                'TenSanPham'   => $request->TenSanPham,
+                'MoTaChiTiet'  => $request->MoTaChiTiet,
+                'MaDanhMuc'    => $request->MaDanhMuc,
+                'MaThuongHieu' => $request->MaThuongHieu,
+            ]);
+
+            BienTheSanPham::where('MaSanPham', $id)->first()?->update([
+                'GiaBan'     => $request->GiaBan,
+                'SoLuongTon' => $request->SoLuongTon,
+            ]);
+
+            if ($request->hasFile('HinhAnh')) {
+                $this->deleteOldImage($id);
+                $this->uploadImage($request, $id);
             }
 
-            
-            HinhAnhSanPham::where('MaSanPham', $id)->delete(); // Xóa bảng ảnh
-            BienTheSanPham::where('MaSanPham', $id)->delete(); // Xóa biến thể
-            
-            
-            $sanPham->delete();
+            DB::commit();
+
+            return redirect()
+                ->route('admin.products.index')
+                ->with('success', 'Cập nhật sản phẩm thành công');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors([
+                'error' => 'Lỗi cập nhật: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+//Xoa san pham
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->deleteOldImage($id);
+
+            HinhAnhSanPham::where('MaSanPham', $id)->delete();
+            BienTheSanPham::where('MaSanPham', $id)->delete();
+            SanPham::findOrFail($id)->delete();
 
             DB::commit();
 
@@ -153,4 +176,45 @@ class SanPhamAdminController extends Controller
         }
     }
 
+
+    private function validateProduct(Request $request)
+    {
+        $request->validate([
+            'TenSanPham'   => 'required|string|max:200',
+            'MaDanhMuc'    => 'required|integer',
+            'MaThuongHieu' => 'required|integer',
+            'GiaBan'       => 'required|numeric|min:0',
+            'SoLuongTon'   => 'required|integer|min:0',
+            'HinhAnh'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+    }
+
+    private function uploadImage(Request $request, $maSanPham)
+    {
+        if ($request->hasFile('HinhAnh')) {
+            $file    = $request->file('HinhAnh');
+            $tenFile = time() . '_' . $file->getClientOriginalName();
+
+            $file->move(public_path('img/hinhanhsanpham'), $tenFile);
+
+            HinhAnhSanPham::create([
+                'MaSanPham'  => $maSanPham,
+                'DuongDan'   => $tenFile,
+                'LaAnhChinh' => 1,
+            ]);
+        }
+    }
+
+    private function deleteOldImage($maSanPham)
+    {
+        $anhCu = HinhAnhSanPham::where('MaSanPham', $maSanPham)
+            ->where('LaAnhChinh', 1)
+            ->first();
+
+        if ($anhCu) {
+            $path = public_path('img/hinhanhsanpham/' . $anhCu->DuongDan);
+            if (file_exists($path)) unlink($path);
+            $anhCu->delete();
+        }
+    }
 }
