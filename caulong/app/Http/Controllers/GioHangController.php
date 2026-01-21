@@ -19,6 +19,10 @@ class GioHangController extends Controller
         ]);
     }
 
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     public function index()
     {
         $gioHang = $this->getGioHang();
@@ -38,11 +42,18 @@ class GioHangController extends Controller
         );
 
 
+<<<<<<< Updated upstream
         $myVouchers = collect([]); 
         
         if (Auth::check()) {
             /** @var \App\Models\NguoiDung $user */
             $user = Auth::user();
+=======
+    
+    public function add(Request $request, $maBienThe)
+    {
+        $soLuong = $request->input('soLuong', 1);
+>>>>>>> Stashed changes
 
             $myVouchers = $user->khuyenMais()
                 ->where('TrangThai', 1)
@@ -65,6 +76,10 @@ class GioHangController extends Controller
         return back()->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng');
     }
 
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     public function update(Request $request, $maBienThe)
     {
         $gioHang = $this->getGioHang();
@@ -86,7 +101,12 @@ class GioHangController extends Controller
         return back()->with('success', 'Đã cập nhật số lượng');
     }
 
+<<<<<<< Updated upstream
     public function addAjax(Request $request, $maBienThe)
+=======
+    
+    public function remove($maBienThe)
+>>>>>>> Stashed changes
     {
         if (!Auth::check()) {
             return response()->json([

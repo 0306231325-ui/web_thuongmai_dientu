@@ -125,3 +125,10 @@ Route::prefix('admin')->group(function () {
         ->name('admin.orders.updateStatus');
 });
 
+<<<<<<< Updated upstream
+=======
+Route::get('/checkout', function () {
+    return view('checkout-html');
+})->name('checkout');
+
+>>>>>>> Stashed changes

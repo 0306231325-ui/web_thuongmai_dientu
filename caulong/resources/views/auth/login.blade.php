@@ -14,7 +14,6 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- TenDangNhap -->
         <div class="form-group mb-3">
             <label>Tên đăng nhập</label>
             <input
@@ -25,8 +24,6 @@
                 required
             >
         </div>
-
-        <!-- MatKhau -->
         <div class="form-group mb-3">
             <label>Mật khẩu</label>
             <input

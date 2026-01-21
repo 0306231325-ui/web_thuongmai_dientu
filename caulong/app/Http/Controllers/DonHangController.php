@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class DonHangController extends Controller
 {
-    // Danh sách đơn hàng
     public function index()
     {
         $donHangs = DonHang::where('MaNguoiDung', Auth::id())
@@ -17,7 +16,6 @@ class DonHangController extends Controller
         return view('donhang.index', compact('donHangs'));
     }
 
-    // Chi tiết đơn hàng
     public function show($id)
     {
         $donHang = DonHang::with('chiTiet.bienThe')
@@ -28,7 +26,6 @@ class DonHangController extends Controller
         return view('donhang.show', compact('donHang'));
     }
 
-    // Huỷ đơn
     public function cancel($id)
     {
         $donHang = DonHang::where('MaDonHang', $id)

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Quản lý loại sản phẩm</title>
 
-    <!-- Bootstrap CSS -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -14,7 +13,6 @@
 
 <div class="container mt-4">
 
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="font-weight-bold mb-0">QUẢN LÝ LOẠI SẢN PHẨM</h4>
         <a href="{{ route('admin.index') }}" class="btn btn-secondary">
@@ -22,14 +20,12 @@
         </a>
     </div>
 
-    <!-- Action -->
     <div class="mb-3 text-right">
         <button class="btn btn-danger">
             + Thêm loại sản phẩm
         </button>
     </div>
 
-    <!-- Table -->
     <div class="card">
         <div class="card-body p-0">
 
@@ -43,14 +39,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- CHƯA CÓ DỮ LIỆU -->
                 </tbody>
             </table>
 
         </div>
     </div>
 
-    <!-- Empty State -->
     <div class="text-center text-muted mt-4">
         Chưa có loại sản phẩm nào
     </div>

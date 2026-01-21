@@ -165,6 +165,7 @@
             <a href="{{ url('/shop') }}" class="btn btn-secondary">
                 ← Tiếp tục mua
             </a>
+<<<<<<< Updated upstream
             
             <form action="{{ route('gio-hang.clear') }}" method="POST" 
                   class="d-inline-block ms-2" 
@@ -175,6 +176,12 @@
                     Xóa hết giỏ hàng
                 </button>
             </form>
+=======
+
+            <a href="{{ route('checkout') }}" class="btn btn-success ms-2" class="btn btn-success ms-2">
+                Thanh toán
+            </a>
+>>>>>>> Stashed changes
         </div>
 
         <a href="{{ route('checkout') }}" class="btn btn-success btn-lg px-5">

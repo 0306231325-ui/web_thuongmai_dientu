@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Quản lý đơn hàng</title>
 
-    <!-- Bootstrap -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         rel="stylesheet"

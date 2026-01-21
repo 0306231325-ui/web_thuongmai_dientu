@@ -97,7 +97,6 @@ class AuthController extends Controller
 
     public function logout()
     {
-        // SỬA LỖI WARNING: Đã use Auth ở trên rồi thì gọi thẳng Auth thôi
         Auth::logout(); 
         return redirect('/');
     }
