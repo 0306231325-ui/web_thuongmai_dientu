@@ -30,49 +30,43 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'TenDangNhap' => 'required|string',
-            'MatKhau' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'TenDangNhap' => 'required|string',
+        'MatKhau' => 'required|string',
+    ]);
 
-        $user = NguoiDung::where('TenDangNhap', $request->TenDangNhap)
-                          ->where('TrangThai', 1)
-                          ->first();
+    $user = NguoiDung::where('TenDangNhap', $request->TenDangNhap)
+        ->where('TrangThai', 1)
+        ->first();
 
-        if ($user && $user->MatKhau === $request->MatKhau) { // so sánh trực tiếp
-            Auth::login($user);
-
-            $roleIds = $user->vaiTros->pluck('MaVaiTro')->toArray();
-
-
-            if (in_array(1, $roleIds)) {
-            return redirect()
-            ->route('admin.dashboard')
-            ->with('success', 'Đăng nhập quản trị viên thành công');
-        }
-
-            if (in_array(1, $roleIds)) { // 1 → QuanTriVien
-                return redirect()->route('admin.index');
-            }
-
-            if (in_array(3, $roleIds)) { // 3 → KhachHang
-                return redirect('/'); // khách hàng → trang chính
-            }
-
-
-        if (in_array(3, $roleIds)) {
-            return redirect('/')
-                ->with('success', 'Đăng nhập thành công ');
-        }
-            Auth::logout();
-            return abort(403, 'Bạn không có quyền truy cập');
-        }
-
+    if (!$user || $user->MatKhau !== $request->MatKhau) {
         return back()->withErrors([
             'login' => 'Sai tài khoản hoặc mật khẩu'
         ]);
     }
+
+    Auth::login($user);
+
+    $roleIds = $user->vaiTros->pluck('MaVaiTro')->toArray();
+
+    // 🔴 QUẢN TRỊ VIÊN
+    if (in_array(1, $roleIds)) {
+        return redirect()
+            ->route('admin.index')
+            ->with('success', 'Đăng nhập quản trị viên thành công');
+    }
+
+    // 🟢 KHÁCH HÀNG
+    if (in_array(3, $roleIds)) {
+        return redirect('/')
+            ->with('success', 'Đăng nhập thành công');
+    }
+
+    Auth::logout();
+    abort(403, 'Bạn không có quyền truy cập');
+}
+
     public function showRegister()
     {
         return view('auth.register');
