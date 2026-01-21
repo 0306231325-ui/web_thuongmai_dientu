@@ -1,7 +1,6 @@
 <div class="container-fluid bg-dark mb-3">
     <div class="row px-xl-5 align-items-center">
 
-        
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn d-flex align-items-center justify-content-between bg-warning text-dark w-100"
                data-toggle="collapse"
@@ -15,17 +14,18 @@
                  id="navbar-vertical"
                  style="width: calc(100% - 30px); z-index:999;">
                 <div class="navbar-nav w-100">
-                    @foreach($danhMucs as $dm)
-                        <a href="{{ route('shop.danhmuc', $dm->Slug) }}"
-                           class="nav-item nav-link">
-                            {{ $dm->TenDanhMuc }}
-                        </a>
-                    @endforeach
+                    @if(isset($danhMucs))
+                        @foreach($danhMucs as $dm)
+                            <a href="{{ route('shop.danhmuc', $dm->Slug) }}"
+                               class="nav-item nav-link">
+                                {{ $dm->TenDanhMuc }}
+                            </a>
+                        @endforeach
+                    @endif
                 </div>
             </nav>
         </div>
 
-        
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-0" style="height:56px;">
                 <div class="collapse navbar-collapse show align-items-center">
@@ -34,31 +34,36 @@
                         <a href="{{ url('/') }}" class="nav-item nav-link">Trang chủ</a>
                         <a href="{{ route('shop.index') }}" class="nav-item nav-link">Sản phẩm</a>
                         <a href="{{ route('contact') }}" class="nav-item nav-link">Liên hệ</a>
+                        
                         <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
-                        <a href="{{'#' }}" class="nav-item nav-link">Giới Thiệu</a>
+                        <a href="#" class="nav-item nav-link">Giới Thiệu</a>
                     </div>
 
-            
                     <div class="navbar-nav ml-auto">
-                        <a href="{{ route('gio-hang') }}"
-                           class="nav-item nav-link d-flex align-items-center position-relative"
-                           style="font-size:18px;">
-
-                            <i class="fas fa-shopping-cart"></i>
-
-                            @if(!empty($cartCount) && $cartCount > 0)
-                                <span class="badge badge-danger position-absolute"
-                                      style="
-                                        top:0;
-                                        right:-10px;
-                                        font-size:11px;
-                                        padding:4px 6px;
-                                        border-radius:50%;
-                                      ">
-                                    {{ $cartCount }}
-                                </span>
-                            @endif
-                        </a>
+                        @guest
+                            <a href="#"
+                               class="nav-item nav-link d-flex align-items-center position-relative open-login"
+                               data-redirect="{{ route('gio-hang') }}"
+                               style="font-size:18px;">
+                                <i class="fas fa-shopping-cart"></i>
+                                @if(!empty($cartCount) && $cartCount > 0)
+                                    <span class="badge badge-danger position-absolute" style="top:0; right:-10px; font-size:11px; padding:4px 6px; border-radius:50%;">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </a>
+                        @else
+                            <a href="{{ route('gio-hang') }}"
+                               class="nav-item nav-link d-flex align-items-center position-relative"
+                               style="font-size:18px;">
+                                <i class="fas fa-shopping-cart"></i>
+                                @if(!empty($cartCount) && $cartCount > 0)
+                                    <span class="badge badge-danger position-absolute" style="top:0; right:-10px; font-size:11px; padding:4px 6px; border-radius:50%;">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </a>
+                        @endguest
                     </div>
 
                 </div>

@@ -26,11 +26,11 @@ class SanPham extends Model
     }
 
     public function bienThes()
-{
-    return $this->hasMany(BienTheSanPham::class, 'MaSanPham', 'MaSanPham');
-}
+    {
+        return $this->hasMany(BienTheSanPham::class, 'MaSanPham', 'MaSanPham');
+    }
 
-public function danhMuc()
+    public function danhMuc()
     {
         return $this->belongsTo(DanhMuc::class, 'MaDanhMuc', 'MaDanhMuc');
     }
@@ -41,16 +41,13 @@ public function danhMuc()
     }
 
     public function hinhAnhs()
-{
-    return $this->hasMany(HinhAnhSanPham::class, 'MaSanPham', 'MaSanPham');
-}
+    {
+        return $this->hasMany(HinhAnhSanPham::class, 'MaSanPham', 'MaSanPham');
+    }
 
-public function hinhAnhChinh()
-{
-    return $this->hasOne(HinhAnhSanPham::class, 'MaSanPham', 'MaSanPham')
-                ->where('LaAnhChinh', 1);
-}
-
-
-
+    public function hinhAnhChinh()
+    {
+        return $this->hasOne(HinhAnhSanPham::class, 'MaSanPham', 'MaSanPham')
+                    ->where('LaAnhChinh', 1);
+    }
 }

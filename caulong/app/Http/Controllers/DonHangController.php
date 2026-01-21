@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -32,10 +33,14 @@ class DonHangController extends Controller
             ->where('MaNguoiDung', Auth::id())
             ->firstOrFail();
 
-        if ($donHang->TrangThaiDonHang == 'ChoXuLy') {
-            $donHang->TrangThaiDonHang = 'DaHuy';
-            $donHang->save();
+
+        if ($donHang->TrangThaiDonHang !== 'ChoXuLy') {
+            return redirect()->route('donhang.index')
+                ->with('error', 'Chỉ có thể huỷ đơn khi đang chờ xử lý');
         }
+
+        $donHang->TrangThaiDonHang = 'DaHuy';
+        $donHang->save();
 
         return redirect()->route('donhang.index')
             ->with('success', 'Huỷ đơn hàng thành công');

@@ -19,19 +19,13 @@ class GioHangController extends Controller
         ]);
     }
 
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
     public function index()
     {
         $gioHang = $this->getGioHang();
 
-
         $items = ChiTietGioHang::with('bienTheSanPham.sanPham')
             ->where('MaGioHang', $gioHang->MaGioHang)
             ->paginate(3);
-
 
         $allItems = ChiTietGioHang::with('bienTheSanPham')
             ->where('MaGioHang', $gioHang->MaGioHang)
@@ -41,19 +35,11 @@ class GioHangController extends Controller
             $item->SoLuong * ($item->bienTheSanPham->GiaBan ?? 0)
         );
 
-
-<<<<<<< Updated upstream
         $myVouchers = collect([]); 
         
         if (Auth::check()) {
             /** @var \App\Models\NguoiDung $user */
             $user = Auth::user();
-=======
-    
-    public function add(Request $request, $maBienThe)
-    {
-        $soLuong = $request->input('soLuong', 1);
->>>>>>> Stashed changes
 
             $myVouchers = $user->khuyenMais()
                 ->where('TrangThai', 1)
@@ -76,10 +62,6 @@ class GioHangController extends Controller
         return back()->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng');
     }
 
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
     public function update(Request $request, $maBienThe)
     {
         $gioHang = $this->getGioHang();
@@ -101,12 +83,7 @@ class GioHangController extends Controller
         return back()->with('success', 'Đã cập nhật số lượng');
     }
 
-<<<<<<< Updated upstream
     public function addAjax(Request $request, $maBienThe)
-=======
-    
-    public function remove($maBienThe)
->>>>>>> Stashed changes
     {
         if (!Auth::check()) {
             return response()->json([

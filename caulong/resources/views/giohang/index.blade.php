@@ -165,7 +165,7 @@
             <a href="{{ url('/shop') }}" class="btn btn-secondary">
                 ← Tiếp tục mua
             </a>
-<<<<<<< Updated upstream
+
             
             <form action="{{ route('gio-hang.clear') }}" method="POST" 
                   class="d-inline-block ms-2" 
@@ -176,12 +176,7 @@
                     Xóa hết giỏ hàng
                 </button>
             </form>
-=======
 
-            <a href="{{ route('checkout') }}" class="btn btn-success ms-2" class="btn btn-success ms-2">
-                Thanh toán
-            </a>
->>>>>>> Stashed changes
         </div>
 
         <a href="{{ route('checkout') }}" class="btn btn-success btn-lg px-5">
@@ -190,6 +185,7 @@
     </div>
 
 </div>
+
 
 <div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -262,6 +258,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 

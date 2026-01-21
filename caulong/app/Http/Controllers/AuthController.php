@@ -11,6 +11,7 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+       
         if (Auth::check()) {
             /** @var \App\Models\NguoiDung $user */ 
             $user = Auth::user();
@@ -47,12 +48,16 @@ class AuthController extends Controller
 
             $roleIds = $user->vaiTros->pluck('MaVaiTro')->toArray();
 
+
             if (in_array(1, $roleIds)) {
-                return redirect()->route('admin.index');
+                return redirect()
+                    ->route('admin.dashboard')
+                    ->with('success', 'Đăng nhập quản trị viên thành công');
             }
 
             if (in_array(3, $roleIds)) {
-                return redirect('/');
+                return redirect('/')
+                    ->with('success', 'Đăng nhập thành công');
             }
 
             Auth::logout();

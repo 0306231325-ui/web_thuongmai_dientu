@@ -28,6 +28,11 @@
 
     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
         @csrf
+        <div class="form-group mb-3">
+            <label>Mã Người Dùng</label>
+            <input type="text" name="MaNguoiDung" class="form-control"
+                   value="{{ auth()->user()->MaNguoiDung }}">
+        </div>
 
         <div class="row">
             <div class="col-md-6">
@@ -62,6 +67,17 @@
         <div class="form-group mb-3">
             <label class="font-weight-bold">Đổi ảnh đại diện</label>
             <input type="file" name="AnhDaiDien" class="form-control-file">
+        </div>
+        <div class="form-group mb-3">
+            <label>Tên đăng nhập</label>
+            <input type="text" name="TenDangNhap" class="form-control"
+                   value="{{ auth()->user()->TenDangNhap }}">
+        </div>
+        
+        <div class="form-group mb-3">
+            <label>Mật khẩu</label>
+            <input type="text" name="MatKhau" class="form-control"
+                   value="{{ auth()->user()->MatKhau }}">
         </div>
 
         <hr>

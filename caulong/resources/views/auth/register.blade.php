@@ -90,8 +90,12 @@
     </form>
 
     <p class="mt-3 text-center">
-        Bạn đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>
+    Bạn đã có tài khoản?
+    <a href="{{ url('/?login=1') }}">Đăng nhập</a>
     </p>
+
+    
+</div>
 
 </div>
 @endsection
