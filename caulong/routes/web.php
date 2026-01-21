@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AdminController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
+Route::post('/lien-he/gui', [ContactController::class, 'store'])->name('lien-he.gui');
 Route::get('/khuyen-mai/tet-2026', fn () => view('promotions.tet2026'));
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');

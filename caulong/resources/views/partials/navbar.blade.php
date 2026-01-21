@@ -34,12 +34,8 @@
                         <a href="{{ url('/') }}" class="nav-item nav-link">Trang chủ</a>
                         <a href="{{ route('shop.index') }}" class="nav-item nav-link">Sản phẩm</a>
                         <a href="{{ route('contact') }}" class="nav-item nav-link">Liên hệ</a>
-                        <a href="#" class="nav-item nav-link">Hỗ trợ</a>
-
                         <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
-
-                        
-
+                        <a href="{{'#' }}" class="nav-item nav-link">Giới Thiệu</a>
                     </div>
 
             

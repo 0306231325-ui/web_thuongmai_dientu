@@ -3,27 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; 
 use App\Models\NguoiDung;
+use App\Models\DiaChiNguoiDung;
 
 class AuthController extends Controller
 {
     public function showLogin()
     {
         if (Auth::check()) {
+            /** @var \App\Models\NguoiDung $user */ 
             $user = Auth::user();
-            $roleIds = $user->vaiTros->pluck('MaVaiTro')->toArray();
+            
+            $roleIds = $user->vaiTros ? $user->vaiTros->pluck('MaVaiTro')->toArray() : [];
 
-            // Kiểm tra theo ID
-            if (in_array(1, $roleIds)) { // 1 → QuanTriVien
+            if (in_array(1, $roleIds)) { 
                 return redirect()->route('admin.dashboard');
             }
 
-            if (in_array(3, $roleIds)) { // 3 → KhachHang
-                return redirect('/'); // khách hàng → trang chính
+            if (in_array(3, $roleIds)) { 
+                return redirect('/'); 
             }
 
-            abort(404); // nếu role khác
+            abort(404);
         }
 
         return view('auth.login');
@@ -40,17 +42,17 @@ class AuthController extends Controller
                           ->where('TrangThai', 1)
                           ->first();
 
-        if ($user && $user->MatKhau === $request->MatKhau) { // so sánh trực tiếp
+        if ($user && $user->MatKhau === $request->MatKhau) {
             Auth::login($user);
 
             $roleIds = $user->vaiTros->pluck('MaVaiTro')->toArray();
 
-            if (in_array(1, $roleIds)) { // 1 → QuanTriVien
+            if (in_array(1, $roleIds)) {
                 return redirect()->route('admin.index');
             }
 
-            if (in_array(3, $roleIds)) { // 3 → KhachHang
-                return redirect('/'); // khách hàng → trang chính
+            if (in_array(3, $roleIds)) {
+                return redirect('/');
             }
 
             Auth::logout();
@@ -61,12 +63,12 @@ class AuthController extends Controller
             'login' => 'Sai tài khoản hoặc mật khẩu'
         ]);
     }
+
     public function showRegister()
     {
         return view('auth.register');
     }
 
-    // Xử lý đăng ký
     public function register(Request $request)
     {
         $request->validate([
@@ -79,58 +81,93 @@ class AuthController extends Controller
 
         $user = new NguoiDung();
         $user->TenDangNhap = $request->TenDangNhap;
-        $user->MatKhau = $request->MatKhau; // Nếu muốn hash: Hash::make($request->MatKhau)
+        $user->MatKhau = $request->MatKhau; 
         $user->HoTen = $request->HoTen;
         $user->Email = $request->Email;
         $user->SoDienThoai = $request->SoDienThoai;
-        $user->TrangThai = 1; // kích hoạt tài khoản
+        $user->TrangThai = 1; 
         $user->save();
 
-        // Gán vai trò Khách Hàng (MaVaiTro = 3)
         $user->vaiTros()->attach(3);
 
         Auth::login($user);
 
         return redirect('/');
     }
+
     public function logout()
     {
-        \Illuminate\Support\Facades\Auth::logout();
+        // SỬA LỖI WARNING: Đã use Auth ở trên rồi thì gọi thẳng Auth thôi
+        Auth::logout(); 
         return redirect('/');
     }
+
     public function showProfile()
     {
-    return view('auth.profile');
+        return view('auth.profile');
     }
 
     public function updateProfile(Request $request)
     {
-    $request->validate([
-        'HoTen' => 'required',
-        'Email' => 'required|email',
-        'SoDienThoai' => 'nullable',
-        'MatKhau' => 'nullable|min:6|confirmed',
-    ], [
-        'MatKhau.min' => 'Mật khẩu phải ít nhất 6 ký tự',
-        'MatKhau.confirmed' => 'Mật khẩu nhập lại không khớp',
-    ]);
+        $request->validate([
+            'HoTen' => 'required',
+            'Email' => 'required|email',
+            'SoDienThoai' => 'nullable',
+            'DiaChi' => 'nullable|string',
+            'AnhDaiDien' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'MatKhau' => 'nullable|min:6|confirmed',
+        ], [
+            'AnhDaiDien.image' => 'File tải lên phải là hình ảnh',
+            'AnhDaiDien.max' => 'Dung lượng ảnh không được quá 2MB',
+            'MatKhau.min' => 'Mật khẩu phải ít nhất 6 ký tự',
+            'MatKhau.confirmed' => 'Mật khẩu nhập lại không khớp',
+        ]);
 
-    $user = Auth::user();
+        /** @var \App\Models\NguoiDung $user */ 
+        $user = Auth::user(); 
 
-    // cập nhật thông tin
-    $user->HoTen = $request->HoTen;
-    $user->Email = $request->Email;
-    $user->SoDienThoai = $request->SoDienThoai;
 
-    // chỉ đổi mật khẩu nếu user nhập
-    if ($request->filled('MatKhau')) {
-        $user->MatKhau = $request->MatKhau; // theo hệ hiện tại của bạn
+        $user->HoTen = $request->HoTen;
+        $user->Email = $request->Email;
+        $user->SoDienThoai = $request->SoDienThoai;
+
+        if ($request->hasFile('AnhDaiDien')) {
+            $file = $request->file('AnhDaiDien');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            
+            $file->move(public_path('img/avatars'), $filename);
+            
+            $user->AnhDaiDien = $filename;
+        }
+
+        if ($request->filled('MatKhau')) {
+            $user->MatKhau = $request->MatKhau; 
+        }
+
+        $user->save(); 
+
+        if ($request->filled('DiaChi')) {
+            /** @var \App\Models\DiaChiNguoiDung $diaChi */
+            $diaChi = DiaChiNguoiDung::where('MaNguoiDung', $user->MaNguoiDung)
+                        ->where('MacDinh', 1)
+                        ->first();
+
+            if ($diaChi) {
+                $diaChi->DiaChiChiTiet = $request->DiaChi;
+                $diaChi->TenNguoiNhan = $user->HoTen; 
+                $diaChi->SoDienThoai = $user->SoDienThoai; 
+                $diaChi->save();
+            } else {
+                DiaChiNguoiDung::create([
+                    'MaNguoiDung' => $user->MaNguoiDung,
+                    'TenNguoiNhan' => $user->HoTen,
+                    'SoDienThoai' => $user->SoDienThoai,
+                    'DiaChiChiTiet' => $request->DiaChi,
+                    'MacDinh' => 1
+                ]);
+            }
+        }
+
+        return back()->with('success', 'Cập nhật hồ sơ thành công');
     }
-
-    $user->save();
-
-    return back()->with('success', 'Cập nhật thông tin thành công');
-    }
-
-    
 }
