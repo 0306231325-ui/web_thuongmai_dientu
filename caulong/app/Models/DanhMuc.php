@@ -10,9 +10,22 @@ class DanhMuc extends Model
     protected $primaryKey = 'MaDanhMuc';
     public $timestamps = false;
 
-    public function sanPhams()
+    protected $fillable = [
+        'TenDanhMuc',
+        'Slug',
+        'HinhAnh',
+        'DanhMucCha'
+    ];
+
+    // Danh mục con
+    public function children()
     {
-        return $this->hasMany(SanPham::class, 'MaDanhMuc', 'MaDanhMuc');
+        return $this->hasMany(DanhMuc::class, 'DanhMucCha', 'MaDanhMuc');
+    }
+
+    // Danh mục cha
+    public function parent()
+    {
+        return $this->belongsTo(DanhMuc::class, 'DanhMucCha', 'MaDanhMuc');
     }
 }
-
