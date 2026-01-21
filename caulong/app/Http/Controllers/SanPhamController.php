@@ -10,11 +10,11 @@ class SanPhamController extends Controller
     {
          $sanPham = SanPham::with([
         'bienThes',
-        'hinhAnhs',
         'hinhAnhChinh',
         'thuongHieu',
         'danhGias.nguoiDung'
     ])->where('Slug', $slug)->firstOrFail();
+    $sanPham->increment('LuotXem');
 
     return view('sanpham.chitiet', compact('sanPham'));
 }

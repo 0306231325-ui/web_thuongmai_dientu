@@ -83,4 +83,12 @@ class NguoiDung extends Authenticatable
         )
         ->withPivot('NgayLuu', 'DaSuDung'); 
     }
+
+
+    public function diaChiMacDinh()
+    {
+        return $this->hasOne(DiaChiNguoiDung::class, 'MaNguoiDung', 'MaNguoiDung')
+                    ->where('MacDinh', 1)
+                    ->withDefault(); 
+    }
 }

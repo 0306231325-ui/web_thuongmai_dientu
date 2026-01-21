@@ -87,11 +87,10 @@ function checkTonKho() {
 
 
 btnAddToCart.addEventListener('click', () => {
-   
     if (!currentVariant || btnAddToCart.disabled) return;
 
     btnAddToCart.disabled = true;
-    btnAddToCart.innerText = 'Đang thêm...';
+    btnAddToCart.innerText = 'Đang xử lý...';
 
     const soLuongThem = parseInt(inputSoLuong.value);
 
@@ -99,36 +98,56 @@ btnAddToCart.addEventListener('click', () => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute('content')
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify({
             soLuong: soLuongThem
         })
     })
-    .then(res => {
+    .then(async (res) => {
+
+        // 302
+        if (res.redirected && res.url.includes('/login')) {
+            window.location.href = '/login';
+            return null; 
+        }
+        
+
         if (res.status === 401) {
             window.location.href = '/login';
-            return;
+            return null;
         }
+
+        // 500
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error("Server trả về lỗi (không phải JSON). Vui lòng kiểm tra Console.");
+        }
+
         return res.json();
     })
     .then(data => {
-        if (data && data.success) {
-            alert('Đã thêm vào giỏ hàng');
-            currentVariant.SoLuongTon -= soLuongThem;
+        if (!data) return;
 
+        if (data.success) {
+            alert('Đã thêm vào giỏ hàng thành công!');
+            
+            currentVariant.SoLuongTon -= soLuongThem;
             inputSoLuong.value = 1;
-            checkTonKho();
+            
+            checkTonKho(); 
         } else {
-            alert(data?.message || 'Có lỗi xảy ra');
+            alert(data.message || 'Có lỗi xảy ra');
         }
     })
-    .catch(() => {
-        alert('Không thể thêm vào giỏ');
+    .catch((error) => {
+        console.error("Lỗi chi tiết:", error); 
+        alert('Lỗi hệ thống: ' + error.message);
     })
     .finally(() => {
         btnAddToCart.innerText = 'Thêm vào giỏ';
+        if (currentVariant && currentVariant.SoLuongTon > 0) {
+            btnAddToCart.disabled = false;
+        }
     });
 });

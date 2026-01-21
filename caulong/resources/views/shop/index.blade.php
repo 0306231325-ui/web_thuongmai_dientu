@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Shop Cầu Lông')
+@section('title', 'Trang San Pham')
 
 @section('content')
 
@@ -12,11 +12,9 @@
         </button>
     </div>
 @endif
+
 <div class="container-fluid">
     <div class="row px-xl-5">
-
-    
-        
         <div class="col-lg-3 col-md-4">
 
             <div class="mb-3">
@@ -73,8 +71,6 @@
         
         <div class="col-lg-9 col-md-8">
             
-           
-
             <div class="row pb-3">
                 @foreach($sanPhams as $sp)
                     @php
@@ -92,6 +88,7 @@
                                 <a href="{{ route('sanpham.chitiet', $sp->Slug) }}">
                                     <img class="product-img-fixed" src="{{ $anh }}" alt="{{ $sp->TenSanPham }}">
                                 </a>
+                                
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square"
                                        href="{{ route('sanpham.chitiet', $sp->Slug) }}">

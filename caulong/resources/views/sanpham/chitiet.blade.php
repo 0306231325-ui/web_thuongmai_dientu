@@ -23,6 +23,8 @@
         ← Quay về
     </a>
 
+    
+
     <div class="row">
 
         <div class="col-md-5">
@@ -52,10 +54,15 @@
         <div class="col-md-7">
             <h3>{{ $sanPham->TenSanPham }}</h3>
 
-            <p>
-                Thương hiệu:
-                <strong>{{ $sanPham->thuongHieu->TenThuongHieu }}</strong>
-            </p>
+<div class="d-flex align-items-center mb-2">
+    <span>
+        Thương hiệu: <strong>{{ $sanPham->thuongHieu->TenThuongHieu }}</strong>
+    </span>
+    <span class="mx-2">|</span>
+   <span class="text-dark">
+    <i class="fas fa-eye"></i> {{ number_format($sanPham->LuotXem) }} lượt xem
+</span>
+</div>
 
             <h4 class="text-danger" id="giaBan">
                 {{ number_format($sanPham->bienThes->min('GiaBan')) }} ₫
@@ -90,6 +97,12 @@
                     disabled>
                 Thêm vào giỏ
             </button>
+
+            <a class="btn btn-outline-danger"
+            href="{{ route('yeuthich.store', $sanPham->MaSanPham) }}"
+            title="Thêm vào yêu thích">
+            <i class="far fa-heart"></i>
+    </a>
         </div>
     </div>
 
@@ -99,8 +112,6 @@
     <hr>
 
 <h5>Đánh giá sản phẩm</h5>
-
-
 <p>
      {{ number_format($sanPham->danhGias->avg('SoSao') ?? 0, 1) }}/5
     ({{ $sanPham->danhGias->count() }} đánh giá)

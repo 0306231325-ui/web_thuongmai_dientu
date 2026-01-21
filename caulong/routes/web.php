@@ -12,9 +12,11 @@ use App\Http\Controllers\DanhGiaController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\KhuyenMaiController;
-use App\Http\Controllers\Admin\SanPhamAdminController;
+
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\SanPhamAdminController;
 use App\Http\Controllers\Admin\CommentAdminController;
+use App\Http\Controllers\Admin\DonHangAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +24,9 @@ use App\Http\Controllers\Admin\CommentAdminController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
+Route::post('/lien-he/gui', [ContactController::class, 'store'])->name('lien-he.gui');
 
 Route::get('/khuyen-mai/tet-2026', fn () => view('promotions.tet2026'));
 
@@ -46,7 +50,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 /*
 |--------------------------------------------------------------------------
-| USER (AUTH REQUIRED)
+| USER (LOGIN REQUIRED)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
@@ -113,4 +117,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Bình luận
     Route::get('/comments', [CommentAdminController::class, 'index'])->name('comments.index');
     Route::delete('/comments/{id}', [CommentAdminController::class, 'destroy'])->name('comments.destroy');
+
+    // Đơn hàng
+    Route::get('/orders', [DonHangAdminController::class, 'index'])->name('orders.index');
+    Route::delete('/orders/{id}', [DonHangAdminController::class, 'destroy'])->name('orders.destroy');
+    Route::patch('/orders/{id}/status', [DonHangAdminController::class, 'updateStatus'])->name('orders.updateStatus');
 });

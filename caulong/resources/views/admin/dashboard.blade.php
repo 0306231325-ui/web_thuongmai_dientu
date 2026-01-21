@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Trang Admin</title>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
@@ -100,20 +99,17 @@
 </head>
 <body>
 
-    <!-- Nút quay về trang chủ -->
     <div class="top-bar">
         <a href="{{ url('/') }}" class="btn-home">
             <i class="fas fa-arrow-left"></i> Quay về trang chủ
         </a>
     </div>
 
-    <!-- Tiêu đề -->
     <div class="admin-title">
         <i class="fas fa-user-shield"></i>
         <h2>QUẢN LÝ ADMIN</h2>
     </div>
 
-    <!-- Dashboard -->
     <div class="dashboard">
 
         <a href="{{ url('/admin/products') }}" class="dashboard-item">
@@ -123,12 +119,12 @@
 
         <a href="{{ url('/admin/categories') }}" class="dashboard-item">
             <i class="fas fa-list"></i>
-            <span>Loại sản phẩm</span>
+            <span>Quản lý danh mục</span>
         </a>
 
         <a href="{{ url('/admin/orders') }}" class="dashboard-item">
             <i class="fas fa-file-invoice"></i>
-            <span>Hóa đơn</span>
+            <span>Quản lý đơn hàng</span>
         </a>
 
         <a href="{{ url('/admin/shipping') }}" class="dashboard-item">

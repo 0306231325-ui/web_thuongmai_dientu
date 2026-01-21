@@ -54,22 +54,6 @@ class GioHangController extends Controller
         return view('giohang.index', compact('items', 'total', 'myVouchers'));
     }
 
-    public function add(Request $request, $maBienThe)
-    {
-        $soLuong = max(1, (int) $request->input('soLuong', 1));
-        $gioHang = $this->getGioHang();
-
-        $item = ChiTietGioHang::firstOrNew([
-            'MaGioHang' => $gioHang->MaGioHang,
-            'MaBienThe' => $maBienThe
-        ]);
-
-        $item->SoLuong = ($item->SoLuong ?? 0) + $soLuong;
-        $item->save();
-
-        return back()->with('success', 'Đã thêm vào giỏ hàng');
-    }
-
     public function remove($maBienThe)
     {
         $gioHang = $this->getGioHang();

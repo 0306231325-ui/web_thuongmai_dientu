@@ -34,6 +34,7 @@
                         <a href="{{ url('/') }}" class="nav-item nav-link">Trang chủ</a>
                         <a href="{{ route('shop.index') }}" class="nav-item nav-link">Sản phẩm</a>
                         <a href="{{ route('contact') }}" class="nav-item nav-link">Liên hệ</a>
+<<<<<<< HEAD
                         <a href="#" class="nav-item nav-link">Hỗ trợ</a>
                           {{-- YÊU THÍCH --}}
     @guest
@@ -45,6 +46,10 @@
             Yêu Thích
         </a>
     @endguest
+=======
+                        <a href="{{ route('yeuthich.index') }}" class="nav-item nav-link">Yêu Thích</a>
+                        <a href="{{'#' }}" class="nav-item nav-link">Giới Thiệu</a>
+>>>>>>> bffca99d8316c355cad6fdbac3b33a3c38a1d754
                     </div>
 
                     <!-- GIỎ HÀNG -->
