@@ -89,7 +89,9 @@ Route::delete(
     '/admin/products/{id}',
     [SanPhamAdminController::class, 'destroy']
 )->name('admin.products.destroy');
-
+//tim kiem san pham
+Route::get('/admin/products', [SanPhamAdminController::class, 'index'])
+    ->name('admin.products.index');
 //binh luan
 Route::get(
     '/admin/comments',

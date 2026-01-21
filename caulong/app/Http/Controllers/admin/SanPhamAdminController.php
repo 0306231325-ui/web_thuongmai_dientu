@@ -23,6 +23,7 @@ class SanPhamAdminController extends Controller
             }
         ]);
 
+        // 🔍 TÌM KIẾM SẢN PHẨM
         if ($request->filled('keyword')) {
             $query->where('TenSanPham', 'like', '%' . $request->keyword . '%');
         }
@@ -34,6 +35,7 @@ class SanPhamAdminController extends Controller
 
         return view('admin.products', compact('sanPhams'));
     }
+
 
 //Tao san pham
     public function create()

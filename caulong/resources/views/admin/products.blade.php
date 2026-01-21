@@ -17,18 +17,19 @@
 
         <div class="d-flex align-items-center">
             <!-- Search -->
-            <form method="GET" class="form-inline mr-2">
-                <input
-                    type="text"
-                    name="keyword"
-                    value="{{ request('keyword') }}"
-                    class="form-control mr-2"
-                    placeholder="Tìm sản phẩm..."
-                >
-                <button class="btn btn-outline-primary">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+               <form action="{{ route('admin.products.index') }}" method="GET" class="form-inline mr-2">
+                    <input
+                        type="text"
+                        name="keyword"
+                        class="form-control me-2"
+                        placeholder="Tìm sản phẩm..."
+                        value="{{ request('keyword') }}"
+                    >
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
 
             <!-- Add button -->
           <a href="{{ route('admin.products.create') }}" class="btn btn-primary" style="margin-right: 10px;">
