@@ -98,11 +98,19 @@
                 Thêm vào giỏ
             </button>
 
-            <a class="btn btn-outline-danger"
-            href="{{ route('yeuthich.store', $sanPham->MaSanPham) }}"
-            title="Thêm vào yêu thích">
-            <i class="far fa-heart"></i>
+            @auth
+    <a class="btn btn-outline-danger"
+       href="{{ route('yeuthich.store', $sanPham->MaSanPham) }}"
+       title="Thêm vào yêu thích">
+        <i class="far fa-heart"></i>
     </a>
+    @else
+    <a href="#"
+       class="btn btn-outline-danger open-login"
+       title="Đăng nhập để thêm yêu thích">
+        <i class="far fa-heart"></i>
+    </a>
+            @endauth
         </div>
     </div>
 

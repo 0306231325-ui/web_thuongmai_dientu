@@ -95,10 +95,20 @@
                                         <i class="fa fa-shopping-cart"></i>
                                     </a>
 
-                                    <a class="btn btn-outline-dark btn-square"
-                                    href="{{ route('yeuthich.store', $sp->MaSanPham) }}">
-                                    <i class="far fa-heart"></i>
-                                </a>
+                                    @auth
+    <a class="btn btn-outline-danger"
+       href="{{ route('yeuthich.store', $sanPham->MaSanPham) }}"
+       title="Thêm vào yêu thích">
+        <i class="far fa-heart"></i>
+    </a>
+@else
+    <a href="#"
+       class="btn btn-outline-danger open-login"
+       title="Đăng nhập để thêm yêu thích">
+        <i class="far fa-heart"></i>
+    </a>
+@endauth
+
 
                                     <a class="btn btn-outline-dark btn-square"
                                        href="{{ route('sanpham.chitiet', $sp->Slug) }}">
