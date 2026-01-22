@@ -16,6 +16,14 @@ class SanPhamController extends Controller
     ])->where('Slug', $slug)->firstOrFail();
     $sanPham->increment('LuotXem');
 
-    return view('sanpham.chitiet', compact('sanPham'));
+    $sanPhamLienQuan = SanPham::where('MaDanhMuc', $sanPham->MaDanhMuc)
+            ->where('MaSanPham', '!=', $sanPham->MaSanPham) 
+            ->where('TrangThai', 1) 
+            ->with(['hinhAnhChinh', 'bienThes']) 
+            ->inRandomOrder() 
+            ->limit(4)       
+            ->get();
+
+    return view('sanpham.chitiet', compact('sanPham', 'sanPhamLienQuan'));
 }
 }

@@ -163,6 +163,38 @@
          <a href="{{ route('login') }}">Đăng nhập</a> để viết đánh giá sản phẩm
     </div>
 @endauth
+
+    <hr class="mt-5">
+    <h4 class="mb-3">Sản phẩm liên quan</h4>
+
+    <div class="row mb-5">
+        @if(isset($sanPhamLienQuan) && $sanPhamLienQuan->count() > 0)
+            @foreach($sanPhamLienQuan as $item)
+                <div class="col-6 col-md-3 mb-3"> 
+                    <div class="card h-100">
+                        <a href="{{ route('sanpham.chitiet', $item->Slug) }}">
+                            <img src="{{ asset('img/hinhanhsanpham/' . ($item->hinhAnhChinh->DuongDan ?? 'no-image.jpg')) }}" 
+                                 class="card-img-top border-bottom"
+                                 style="height: 180px; object-fit: contain; padding: 10px;">
+                        </a>
+
+                        <div class="card-body p-2">
+                            <h6 class="card-title" style="font-size: 15px; height: 40px; overflow: hidden;">
+                                <a href="{{ route('sanpham.chitiet', $item->Slug) }}" class="text-decoration-none text-dark">
+                                    {{ $item->TenSanPham }}
+                                </a>
+                            </h6>
+                            <p class="text-danger fw-bold mb-0">
+                                {{ number_format($item->bienThes->min('GiaBan')) }} ₫
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <p class="text-muted">Không có sản phẩm liên quan.</p>
+        @endif
+    </div>
 </div>
 @endsection
 
