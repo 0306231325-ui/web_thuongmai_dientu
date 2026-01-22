@@ -1,7 +1,23 @@
 @extends('layouts.app')
 
 @section('title', 'Giỏ hàng')
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 @section('content')
 <div class="container mt-4">
 
@@ -74,6 +90,7 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $items->links('pagination::bootstrap-4') }}
     </div>
+
     <div class="row justify-content-end mt-4">
         <div class="col-lg-4 col-md-6">
             
@@ -110,7 +127,7 @@
                                 class="btn btn-outline-primary btn-block d-flex justify-content-between align-items-center p-3"
                                 data-toggle="modal" 
                                 data-target="#voucherModal">
-                            <span><i class="fa fa-plus-circle"></i> Chọn hoặc nhập mã</span>
+                            <span><i class="fa fa-plus-circle"></i> Chọn mã</span>
                             <i class="fa fa-chevron-right small"></i>
                         </button>
                         
@@ -199,18 +216,16 @@
                     <div class="row">
                         @foreach($myVouchers as $vc)
                             <div class="col-12 mb-3">
-                    
-                                <div class="card border-0 shadow-sm {{ $vc->checkDieuKien($total) ? '' : 'opacity-50' }}">
                                     <div class="card-body p-3">
                                         <div class="row align-items-center">
-                             
                                             <div class="col-3 text-center border-right">
+
                                                 <div class="bg-light rounded p-2">
                                                     <span class="h5 font-weight-bold text-danger d-block mb-0">
                                                         {{ $vc->PhanTramGiam > 0 ? $vc->PhanTramGiam . '%' : 'GIẢM' }}
                                                     </span>
-                                                    <small class="text-muted">CODE</small>
                                                 </div>
+
                                             </div>
 
                                         
@@ -241,7 +256,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                
                             </div>
                         @endforeach
                     </div>

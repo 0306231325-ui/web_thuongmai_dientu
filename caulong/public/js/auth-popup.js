@@ -1,8 +1,5 @@
 $(document).ready(function () {
 
-    /* ======================
-       MỞ POPUP LOGIN
-    ====================== */
 
     $('.open-login').on('click', function (e) {
         e.preventDefault();
@@ -15,9 +12,6 @@ $(document).ready(function () {
         $('#loginModal').modal('show');
     });
 
-    /* ======================
-       MỞ POPUP KHI ?login=1
-    ====================== */
     const params = new URLSearchParams(window.location.search);
     if (params.get('login') === '1') {
         $('#loginModal').modal('show');

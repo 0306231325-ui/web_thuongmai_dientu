@@ -85,42 +85,38 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
 
-//xóa sản phẩm Nam
 
 
-
-//xóa sản phẩm Nam
 Route::delete(
     '/admin/products/{id}',
     [SanPhamAdminController::class, 'destroy']
 )->name('admin.products.destroy');
 
-//binh luan
+
 Route::get(
     '/admin/comments',
     [\App\Http\Controllers\Admin\CommentAdminController::class, 'index']
 )->name('admin.comments');
-//xóa bình luận 
+
 Route::delete(
     '/admin/comments/{id}',
     [\App\Http\Controllers\Admin\CommentAdminController::class, 'destroy']
 )->name('admin.comments.destroy');
 
 
-//quan ly don hang
+
 use App\Http\Controllers\Admin\DonHangAdminController;
 
 Route::prefix('admin')->group(function () {
 
-    // Danh sách đơn hàng
+
     Route::get('/orders', [DonHangAdminController::class, 'index'])
         ->name('admin.orders.index');
 
-    // Xóa đơn hàng (chỉ DaHuy)
+
     Route::delete('/orders/{id}', [DonHangAdminController::class, 'destroy'])
         ->name('admin.orders.destroy');
 
-    // Cập nhật trạng thái (dropdown)
     Route::patch('/orders/{id}/status', [DonHangAdminController::class, 'updateStatus'])
         ->name('admin.orders.updateStatus');
 });
