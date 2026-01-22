@@ -16,11 +16,13 @@
                  style="width: calc(100% - 30px); z-index:999;">
                 <div class="navbar-nav w-100">
                     @foreach($danhMucs as $dm)
-                        <a href="{{ route('shop.danhmuc', $dm->Slug) }}"
-                           class="nav-item nav-link">
-                            {{ $dm->TenDanhMuc }}
-                        </a>
+                    @if(!empty($dm->Slug))
+                    <a href="{{ route('shop.danhmuc', ['slug' => $dm->Slug]) }}"
+                    class="nav-item nav-link">
+                    {{ $dm->TenDanhMuc }}</a>
+                    @endif
                     @endforeach
+
                 </div>
             </nav>
         </div>

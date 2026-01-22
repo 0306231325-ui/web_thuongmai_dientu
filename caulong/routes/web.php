@@ -87,12 +87,21 @@ Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.r
 
 
 
+
+
+//xóa sản phẩm Nam
+
 Route::delete(
     '/admin/products/{id}',
     [SanPhamAdminController::class, 'destroy']
 )->name('admin.products.destroy');
 
 
+
+//tim kiem san pham
+Route::get('/admin/products', [SanPhamAdminController::class, 'index'])
+    ->name('admin.products.index');
+//binh luan
 Route::get(
     '/admin/comments',
     [\App\Http\Controllers\Admin\CommentAdminController::class, 'index']
@@ -121,3 +130,29 @@ Route::prefix('admin')->group(function () {
         ->name('admin.orders.updateStatus');
 });
 
+Route::get('/admin/products/{id}/edit', [SanPhamAdminController::class, 'edit'])
+    ->name('admin.products.edit');
+
+Route::put('/admin/products/{id}', [SanPhamAdminController::class, 'update'])
+    ->name('admin.products.update');
+ //danh muc san pham
+use App\Http\Controllers\Admin\DanhMucAdminController;
+
+Route::get('/admin/categories', [DanhMucAdminController::class, 'index'])
+    ->name('admin.categories.index');
+//them danh muc
+Route::get('/admin/categories', [DanhMucAdminController::class, 'index'])
+    ->name('admin.categories.index');
+
+Route::post('/admin/categories', [DanhMucAdminController::class, 'store'])
+    ->name('admin.categories.store');
+//xóa danh muc 
+Route::delete(
+    '/admin/categories/{id}',
+    [DanhMucAdminController::class, 'destroy']
+)->name('admin.categories.destroy');
+//cap nhat danh muc 
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('categories', DanhMucAdminController::class)
+        ->except(['show', 'create', 'edit']);
+});
