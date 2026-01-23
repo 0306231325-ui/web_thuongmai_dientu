@@ -28,24 +28,37 @@ class HomeController extends Controller
             ->limit(8)
             ->get();
 
- 
-        foreach ($products as $sp) {
-            
-            $bienTheDau = $sp->bienThes->first();
-            $sp->gia_hien_thi = $bienTheDau ? $bienTheDau->GiaBan : 0;
-            $sp->ten_bien_the = $bienTheDau ? $bienTheDau->TenBienThe : '';
+        $bestSellers = SanPham::with(['danhGias', 'hinhAnhChinh', 'bienThes' => function ($q) {
+                $q->orderBy('GiaBan', 'asc');
+            }])
+            ->where('TrangThai', 1)
+            ->orderByDesc('LuotXem') 
+            ->limit(8)
+            ->get();
 
-            if ($sp->hinhAnhChinh) {
-                $sp->anh_hien_thi = asset('img/hinhanhsanpham/' . $sp->hinhAnhChinh->DuongDan);
-            } else {
-                $sp->anh_hien_thi = asset('img/no-image.png');
+ 
+        $formatProductData = function ($list) {
+            foreach ($list as $sp) {
+                $bienTheDau = $sp->bienThes->first();
+                $sp->gia_hien_thi = $bienTheDau ? $bienTheDau->GiaBan : 0;
+                $sp->ten_bien_the = $bienTheDau ? $bienTheDau->TenBienThe : '';
+
+                if ($sp->hinhAnhChinh) {
+                    $sp->anh_hien_thi = asset('img/hinhanhsanpham/' . $sp->hinhAnhChinh->DuongDan);
+                } else {
+                    $sp->anh_hien_thi = asset('img/no-image.png');
+                }
+
+                if ($sp->danhGias->count() > 0) {
+                    $sp->diem_trung_binh = round($sp->danhGias->avg('SoSao'), 1);
+                } else {
+                    $sp->diem_trung_binh = 0;
+                }
             }
-            if ($sp->danhGias->count() > 0) {
-                $sp->diem_trung_binh = round($sp->danhGias->avg('SoSao'), 1);
-            } else {
-                $sp->diem_trung_binh = 0;
-            }
-        }
+        };
+
+        $formatProductData($products);     
+        $formatProductData($bestSellers);
 
         $categories = DanhMuc::withCount([
             'sanPhams' => function ($q) {
@@ -56,6 +69,7 @@ class HomeController extends Controller
         return view('home.index', compact(
             'slides',
             'products',
+            'bestSellers',
             'categories'
         ));
     }
